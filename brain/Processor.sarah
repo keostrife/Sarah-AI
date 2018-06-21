@@ -1,0 +1,224 @@
+<?php
+	class Processor {
+
+		private $context = array();
+
+		function __construct() {
+			
+		}
+
+		static function purifyInput($input){
+			$result = strtolower($input);
+			$result = trim($result);
+
+			$result = str_replace(" ur ", " your ", $result);
+			$result = str_replace(" urself ", " yourself ", $result);
+			$result = str_replace(" r ", " are ", $result);
+			$result = str_replace(" u ", " you ", $result);
+			$result = str_replace(" doin ", " doing ", $result);
+			$result = str_replace("u r ", "you are ", $result);
+			$result = str_replace("what's", "what is", $result);
+			$result = str_replace("where's", "where is", $result);
+			$result = str_replace("when's", "when is", $result);
+			$result = str_replace("who's", "who is", $result);
+			$result = str_replace("how's", "how is", $result);
+			$result = str_replace("he's", "he is", $result);
+			$result = str_replace("she's", "she is", $result);
+			$result = str_replace("it's", "it is", $result);
+			$result = str_replace("we're", "were are", $result);
+			$result = str_replace("i'm", "i am", $result);
+			$result = str_replace("that's", "that is", $result);
+			$result = str_replace("don't", "do not", $result);
+
+			if(substr($result, -2) == " u") {
+				$result = substr($result, 0, -2)." you";
+			}
+			if(substr($result, -3) == " ur") {
+				$result = substr($result, 0, -3)." your";
+			}
+			if(substr($result, -3) == " urself") {
+				$result = substr($result, 0, -7)." yourself";
+			}
+			if(substr($result, -2) == " r") {
+				$result = substr($result, 0, -2)." are";
+			}
+			if(substr($result, -5) == " doin") {
+				$result = substr($result, 0, -5)." doing";
+			}
+			if(substr($result, -6) == " sarah") {
+				$result = substr($result, 0, -6);
+			}
+			if(substr($result, 0, 6) == "sarah ") {
+				$result = substr($result, 6);
+			}
+			if(substr($result, 0, 7) == "sarah, ") {
+				$result = substr($result, 7);
+			}
+			if(substr($result, 0, 7) == "oh sarah, ") {
+				$result = substr($result, 10);
+			}
+			if(substr($result, 0, 7) == "im") {
+				$result = "i am ".substr($result, 2);
+			}
+			while(!preg_match("/[a-zA-Z0-9]/",substr($result, -1))) {
+				$result = substr($result, 0, -1);
+			}
+
+			return $result;
+		}
+
+		static function purifyOutput($output) {
+
+			global $dbk;
+			global $userid;
+			while(strpos($output, "[user]") !== FALSE && strpos($output, "[/user]") !== FALSE) {
+				$startPos = strpos($output, "[user]");
+				$endPos = strpos($output, "[/user]");
+				$userKey = substr($output, $startPos + strlen("[user]"), $endPos - $startPos - strlen("[user]"));
+
+				$query = $dbk->prepare('SELECT * FROM users WHERE uid=?');
+				$query->bindParam(1, $userid);
+				$query->execute();
+				$user = $query->fetch();
+				if(isset($user[$userKey]))
+					$userValue = $user[$userKey];
+				else
+					$userValue = "";
+				
+				$finalString = substr($output, 0, $startPos) . $userValue . substr($output, $endPos + strlen("[/user]"));
+				$output = $finalString;
+			}
+
+
+			while(strpos($output, "[sarah]") !== FALSE && strpos($output, "[/sarah]") !== FALSE) {
+				$startPos = strpos($output, "[sarah]");
+				$endPos = strpos($output, "[/sarah]");
+				$userKey = substr($output, $startPos + strlen("[sarah]"), $endPos - $startPos - strlen("[sarah]"));
+				$query = $dbk->prepare('SELECT * FROM users WHERE uid="sarah"');
+				$query->execute();
+				$user = $query->fetch();
+				if(isset($user[$userKey]))
+					$userValue = $user[$userKey];
+				else
+					$userValue = "";
+
+				$finalString = substr($output, 0, $startPos) . $userValue . substr($output, $endPos + strlen("[/sarah]"));
+				$output = $finalString;
+			}
+
+			while(strpos($output, "[express]") !== FALSE && strpos($output, "[/express]") !== FALSE) {
+				$startPos = strpos($output, "[express]");
+				$endPos = strpos($output, "[/express]");
+				$expressKey = substr($output, $startPos + strlen("[express]"), $endPos - $startPos - strlen("[express]"));
+				
+				$finalString = substr($output, 0, $startPos) . $this->express($expressKey) . substr($output, $endPos + strlen("[/express]"));
+				$output = $finalString;
+			}
+
+			
+			while(strpos($output, "[ask]") !== FALSE && strpos($output, "[/ask]") !== FALSE) {
+				$startPos = strpos($output, "[ask]");
+				$endPos = strpos($output, "[/ask]");
+				$askKey = substr($output, $startPos + strlen("[ask]"), $endPos - $startPos - strlen("[ask]"));
+				
+				$finalString = substr($output, 0, $startPos) . $this->ask($askKey) . substr($output, $endPos + strlen("[/ask]"));
+				$output = $finalString;
+			}
+			
+			return $output;
+		}
+
+		//I.E: extract 'car' from 'show me car' with structure 'show me [keyword]'
+		static function extractKeyword($input, $keywordStructure) {
+			$keywords = array();
+			$inputChunks = explode("[keyword]", $keywordStructure);
+			$keywordCount = substr_count($keywordStructure, "[keyword]");
+			$hasKeywordAtTheEnd = false;
+			$hasKeywordAtTheBeginning = false;
+			if($inputChunks[count($inputChunks)-1] == "") {
+				array_pop($inputChunks);
+				$hasKeywordAtTheEnd = true;
+			}
+			if($inputChunks[0] == "") {
+				array_shift($inputChunks);
+				$hasKeywordAtTheBeginning = true;
+			}
+			if($keywordCount == 1) {
+				if($hasKeywordAtTheEnd) {
+					$keywords[] = trim(substr($input, strlen($inputChunks[0])));
+				} else if ($hasKeywordAtTheBeginning){
+					$keywords[] = trim(substr($input, 0, 0 - strlen($inputChunks[0])));
+				} else {
+					$keyword = $input;
+					$keyword = substr($keyword, strlen($inputChunks[0]));
+					$keyword = substr($keyword, 0, 0 - strlen($inputChunks[1]));
+					$keywords[] = trim($keyword);
+				}
+			} else {
+				$keyword = $input;
+				for($i = 0, $iLen = count($inputChunks); $i<$iLen; $i++) {
+					if($hasKeywordAtTheBeginning && $i == 0) {
+						$keywords[] = trim(substr($keyword, 0, 0 - strlen($keyword) + strpos($keyword, $inputChunks[0])));
+						$keyword = substr($keyword, strpos($keyword, $inputChunks[0]));
+						$keyword = trim($keyword);
+					}
+					if($hasKeywordAtTheEnd && $i == $iLen - 1) {
+						$keywords[] = trim(substr($keyword, strpos($keyword, $inputChunks[$i]) + strlen($inputChunks[$i])));
+						$keyword = substr($keyword, 0, 0 - strlen($input) + strpos($keyword, $inputChunks[$i]) + strlen($inputChunks[$i]));
+						$keyword = trim($keyword);
+					}
+					if($i == $iLen - 1) {
+						continue;
+					} else {
+						$offset = 0;
+						if($inputChunks[$i+1] == $inputChunks[$i]) {
+							$offset = 1;
+						}
+						$keywords[] = substr($keyword, strlen($inputChunks[$i]), 0 - strlen($keyword) + strpos($keyword, $inputChunks[$i+1], $offset));
+						$keyword = substr($keyword, strpos($keyword, $inputChunks[$i+1], $offset));
+					}
+				}
+			}
+			return $keywords;
+		}
+
+
+		public function nextAction($input) {
+			//Here it will decide whether should it react right away or analize sentence structure before react
+			global $dbk;
+			global $userid;
+
+			//Is Sarah expecting an answer from a question
+			$query = $dbk->prepare("SELECT * FROM users WHERE uid = ?");
+			$query->execute(array($userid));
+			if($query->rowCount() == 1) {
+				$user = $query->fetch();
+				if(!$user["askingQuestion"]) {
+					return "immediateResponse";
+				} else {
+					$query = $dbk->prepare("SELECT * FROM Questions WHERE question=?");
+					$query->bindParam(1, $user["askingQuestion"]);
+					$query->execute();	
+					if($query->rowCount() > 0) {
+						$result = $query->fetch();
+						$validation = create_function('$input',$result["validation"]);
+						if($validation($input)) {
+							$query = $dbk->prepare("UPDATE users SET askingQuestion=NULL WHERE uid=?");
+							$query->execute(array($userid));
+							return "responseToAnswer";
+						}
+					}
+				}
+			}
+			$query = $dbk->prepare("UPDATE users SET askingQuestion=NULL WHERE uid=?");
+			$query->execute(array($userid));
+
+
+			//Is user input is a command
+			
+
+			return "immediateResponse";
+		}
+
+		
+	}

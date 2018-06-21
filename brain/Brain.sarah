@@ -1,0 +1,177 @@
+<?php
+	class Brain {
+		private $processor;
+		
+		function __construct($components){
+			global $_config;
+			$this->processor = $components["processor"];
+		}
+
+		
+
+		public function process($input){
+			$finalInput = Processor::purifyInput($input);
+			$action = $this->processor->nextAction($finalInput);
+
+			$answer = $this->{$action}($finalInput);
+
+			$answer = Processor::purifyOutput($answer);
+
+			return $answer;
+		}
+
+		public function express($output) {
+			global $dbk;
+			$query = $dbk->prepare("SELECT * FROM outputAlias WHERE output=?");
+			$query->bindParam(1, $output);
+			$query->execute();
+			if($query->rowCount() > 0) {
+				//return $query->rowCount();
+				$results = array();
+				while($result = $query->fetch()) {
+					$results[] = $result["alias"];
+				}
+				$randomChoice = array_rand($results);
+				return $results[$randomChoice];
+			}
+			return false;
+		}
+
+		
+
+		
+		private function immediateResponse($input) {
+
+			global $dbk;
+			$query = $dbk->prepare('SELECT * FROM inputAlias WHERE alias=:input UNION SELECT * FROM inputAlias WHERE :input REGEXP regex');
+			$param = trim(strtolower($input));
+			$query->bindParam(":input", $param);
+			$query->execute();
+			
+			if($query->rowCount() > 0) {
+				//the first result always is the nonregex one if it exists
+				$result = $query->fetch();
+
+				//extract keywords from alias
+				$keywords = Processor::extractKeyword($input, $result["alias"]);
+				
+				
+				$query = $dbk->prepare('SELECT * FROM immediateResponse WHERE input=?');
+				$query->bindParam(1, $result["input"]);
+				$query->execute();
+				
+				if($query->rowCount() == 1) {
+					$result = $query->fetch();
+					
+					$query = $dbk->prepare('SELECT * FROM outputAlias WHERE output=?');
+					$query->bindParam(1, $result["output"]);
+					$query->execute();
+
+					//random through the alias for now
+					//TODO: tie this with a decision maker
+					$finalOutput = "";
+					if($query->rowCount() > 0) {
+						$results = $query->fetchAll();
+						shuffle($results);
+						for($i = 0; $i < count($results); $i++) {
+							if(!$results[$i]["validation"]) {
+								$finalOutput = $results[$i]["alias"];
+								break;
+							} else {
+								$validation = create_function('$input',$results[$i]["validation"]);
+								if($validation($input)) {
+									$finalOutput = $results[$i]["alias"];
+									break;
+								} else {
+									continue;
+								}
+							}
+						}
+					}
+				}
+
+				//replace keywords from input into output
+				while(strpos($finalOutput, "[keyword]") !== FALSE) {
+					$finalOutput = substr($finalOutput, 0, strpos($finalOutput, "[keyword]")) . $keywords[0] . substr($finalOutput, strpos($finalOutput, "[keyword]") + strlen("[keyword]"));
+					array_shift($keywords);
+				}
+
+				return $finalOutput;
+			}
+
+			$query = $dbk->prepare('INSERT IGNORE INTO unregisteredInput SET input=?');
+			$query->bindParam(1, $input);
+			$query->execute();
+
+			return $this->express("unknown_command");
+		}
+
+		/*
+		public function askRandom() {
+			global $dbk;
+			$query = $dbk->prepare("SELECT * FROM Questions");
+			$query->execute();
+
+			$results = $query->fetchAll();
+			$questions = array();
+			foreach($results as $result) {
+				if($result["askValidation"]) {
+					$validation = create_function('',$result["askValidation"]);
+					if(!$validation()) continue;
+				}
+				$questions[] = $result["question"];
+			}
+			if(count($questions) > 0) {
+				$randomChoice = array_rand($questions);
+
+				return $this->ask($questions[$randomChoice]);
+			} else {
+				return $this->responseToAnswer();
+			}
+		}
+
+		
+
+		*/
+
+		public function ask($question){
+			global $dbk;
+			global $userid;
+			$questionQuery = $dbk->prepare("SELECT * FROM questions WHERE question=?");
+			$questionQuery->bindParam(1, $question);
+			$questionQuery->execute();
+
+			if($questionQuery->rowCount() < 1) {
+				return "";
+			}
+
+			$q = $questionQuery->fetch();
+			if($q["askValidation"]) {
+				$validation = create_function('$question',$q["askValidation"]);
+				if(!$validation($question)) return "";
+			}
+
+			$query1 = $dbk->prepare("UPDATE users SET askingQuestion = ? WHERE uid=?");
+			$query1->bindParam(1, $question);
+			$query1->bindParam(2, $userid);
+			$query1->execute();
+
+			$query2 = $dbk->prepare("SELECT * FROM questionAlias WHERE question=?");
+			$query2->bindParam(1, $question);
+			$query2->execute();
+
+			$questionAlias = array();
+
+			while($result = $query2->fetch()) {
+				$questionAlias[] = $result["alias"];
+			}
+
+			$randomChoice = array_rand($questionAlias);
+			return $questionAlias[$randomChoice];
+		}
+
+		private function responseToAnswer() {
+			return $this->express("end_convo");
+		}
+		
+	}

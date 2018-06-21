@@ -1,0 +1,75 @@
+table#direct-response {
+	width: 100%;
+	float: left;
+	text-align: center;
+	font-size: 20px;
+	position:relative;
+	left: 0;
+	transition: all 0.4s;
+	tr {
+		background: #f3f3f3;
+		&:nth-child(even) {
+			background: #ffffff;
+		}
+		&:first-child {
+			background: #d3d3d3;
+		}
+	}
+	td, th {
+		padding: 20px;
+		text-align: center;
+		border-right: 1px black dashed;
+		a {
+			color: black;
+		}
+		&:last-child {
+			border-right: 0;
+			padding-right: 20px;
+		}
+		&:first-child {
+			padding-left: 20px;
+		}
+	}
+}
+
+#input-alias,
+#output-alias {
+	width: 50%;
+	float: left;
+	position: fixed;
+	transition: all 0.4s;
+	padding: 20px;
+	background: #c7c7c7;
+	height: 100%;
+	overflow: auto;
+	input {
+		background: white;
+	}
+	h1 {
+		font-size: 30px;
+		margin-bottom: 20px;
+	}
+	ul li {
+		font-size: 16px;
+		margin-bottom: 15px;
+	}
+	.close {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		color: white;
+	}
+}
+
+#input-alias {
+	left: -50%;
+}
+
+#output-alias {
+	left: 100%;
+	text-align: right;
+	.close {
+		left: 20px;
+		right: auto;
+	}
+}

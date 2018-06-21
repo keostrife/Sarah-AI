@@ -1,0 +1,14 @@
+<?php
+	class Sarah {
+		protected $brain;
+		
+		function __construct($brain) {
+			$this->brain = $brain;
+		}
+
+		public function think($input) {
+			return $this->brain->process($input);
+		}
+
+
+	}
