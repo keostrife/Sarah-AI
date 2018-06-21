@@ -4,6 +4,11 @@
 
 Even though Sarah AI development direction was toward being human-like, It is only to the extend that she can accept, understand and execute verbal commands and give appropriate verbal responses back. Sarah is not intended specificly to resemble human behaviour or take part in turing tests.
 
+Resources:
+
+- Live demo: http://sarah.sarahai.com/
+- GUI for the demo: http://sarah.sarahai.com/GUI/site/
+
 ## 1. Direct Response system
                 
 
