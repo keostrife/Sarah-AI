@@ -18,7 +18,7 @@ The most basic form of reaction. If A, respond with B. In fact this is how I sta
 
 A conversation consists of ideas and expressions. The idea is "Greeting" someone and the expressions are "Hi", "Hello", "How is it going?". The idea is "Expressing Concern", and the expressions are "Are you ok?", "What is the matter?".
 
-In Sarah AI system, I call `Input`/`Output` as the ideas, and `Input Alias` and `Output Alias` as expressions of those ideas. So for the examples above, "Greeting" and "Expressing Concern" are the Inputs, and the expressions are Input Alias. Similarly when Sarah provides response, she would select the Output matching the Input from user, choose an Output Alias from the selected Output (currently being chose randomly) and use the alias as a response.
+In Sarah AI system, I call `Input`/`Output` as the ideas, and `Input Alias` and `Output Alias` as expressions of those ideas. So for the examples above, "Greeting" and "Expressing Concern" are the Inputs, and the expressions are Input Alias. Similarly when Sarah provides response, she would select the Output matching the Input from user, choose an Output Alias corresponding to the selected Output (currently being chose randomly) and use the alias as a response.
 
 This is still directly responding to user input, but a lot more efficiently and the responses diverse better.
 
