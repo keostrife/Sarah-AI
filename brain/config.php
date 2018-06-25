@@ -1,2 +1,0 @@
-<?php
-$_config = array();

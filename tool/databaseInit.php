@@ -78,12 +78,8 @@
             first_name VARCHAR(128),
             last_name VARCHAR(128),
             gender VARCHAR(128),
-            full_name VARCHAR(128),
             age VARCHAR(128),
-            profile_pic TEXT,
-            askingQuestion VARCHAR(128) DEFAULT NULL,
             context VARCHAR(255),
-            ram TEXT,
             PRIMARY KEY (`id`)
         ) ENGINE=MyISAM DEFAULT CHARSET=utf8");
 

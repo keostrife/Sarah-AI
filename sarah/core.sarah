@@ -1,0 +1,21 @@
+<?php
+	use sarah;
+	require_once("./sarah/Brain.sarah");
+	require_once("./sarah/Processor.sarah");
+
+	class Sarah {
+		protected $brain;
+		protected $master;
+		function __construct($components) {
+			$this->brain = new sarah\Brain(array(
+				"processor" => new sarah\Processor()
+			));
+			$this->master = $components["master"];
+		}
+
+		public function think($input) {
+			return $this->brain->process($input);
+		}
+
+
+	}

@@ -32,20 +32,27 @@ Note that you can change the bracket so it's more html like if you want.
 
 Since Sarah's focus is to excuting verbal commands, being able to extract keywords from input alias is very important. My current script can only extract keywords stably as long as there are no more than 2 in the same input alias (regex also works). But I'm sure you talents out there can make it work. For example, "Show me puppies" would trigger the "show me [keyword]" alias with "puppies" extracted to be used by applications.
 
+## 2. Users
 
-## 2. Collecting information
+### 2.1 Master user
 
-###  2.1 Context layers
+Initially I want Sarah to be able to take generic inputs, potentially from multiple users. But I ended up with one master user for 1 instance of Sarah. Have you ever seen the movie "OS One"? Yeah...
+
+This is not hard to change later on, the user table is still there.
+
+## 3. Collecting information
+
+###  3.1 Context layers
 
 In development -_-
 
 
-## 3. Application suits
+## 4. Application suits
 
 Some of Sarah's responses isn't meant for user but for applications. For example if user ask about the weather, Sarah would reply with `/weather Toronto NOW 24`, applications would then use these parameters to display the information user requested.
 
 I'm not sure if anyone would be bored enough to read this or find this useful but I guess I will develop a application suit myself for Sarah (weather, calender, google lookups, ...). My idea for this is that there can many application suits out there and user can just pick one, plug it in and enjoy. Sarah App store? Maybe? Too far? lol
 
-## 4. To dos
+## 5. To dos
 
 I'm currently working on a context system, which will help Sarah actively ask questions to user and expect a response, identify references (this, that, ...etc), and maybe Sarah can initiate conversations. Actually I have no idea what the fuck I am doing this may be a huge waste of time, but hey I literally have nothing better to do lol

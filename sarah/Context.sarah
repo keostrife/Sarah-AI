@@ -1,0 +1,16 @@
+<?php namespace sarah;
+	class Context {
+
+		//mentioned keywords
+		public $keywords = array();
+
+		//is Sarah expecting response from user
+		public $expectingResponse = false;
+
+		//identifier for the context
+		public $Id;
+
+		function __construct() {
+			
+		}
+	}

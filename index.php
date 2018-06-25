@@ -1,20 +1,26 @@
 <?php
+	use sarah;
 	//assume that user already logged in
 	session_start();
 
 	include_once("./tool/database.php");
 	include_once("./tool/databaseInit.php");
 
-	
-	include_once("./brain/Processor.sarah");
-	include_once("./brain/Brain.sarah");
-	include_once("./core.sarah");
+	include_once("./sarah/core.sarah");
+	include_once("./sarah/Master.sarah");
 
-	$processor = new Processor();
-	$brain = new Brain(array(
-		"processor" => $processor
+	//constructing Sarah
+	$masterUser = new sarah\Master(array(
+		"first_name" => "Keo",
+		"last_name" => "Strife",
+		"birth_day" => 13,
+		"birth_month" => 5,
+		"birth_year" => 1992,
+		"email" => "keo.strife@gmail.com"
 	));
-	$sarah = new Sarah($brain);
+	$sarah = new Sarah(array(
+		"master" => $masterUser
+	));
 	
 	if(!isset($_GET["s"])) {
 		echo $sarah->think("Hi");

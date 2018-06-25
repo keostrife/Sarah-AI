@@ -1,4 +1,7 @@
-<?php
+<?php namespace sarah;
+	/*
+	 * Sarah Brain, contructed with input processor
+	*/
 	class Brain {
 		private $processor;
 		

@@ -1,0 +1,35 @@
+<?php namespace sarah;
+	class Master {
+		private $first_name;
+		private $last_name;
+		private $birth_day;
+		private $birth_month;
+		private $birth_year;
+		private $gender;
+		private $email;
+		private $phone;
+		private $id; //this is some sort of username, can use email for this?
+		
+		function __construct($infos){
+			$this->first_name = $infos["first_name"];
+			$this->last_name = $infos["last_name"];
+			$this->birth_day = $infos["birth_day"];
+			$this->birth_month = $infos["birth_month"];
+			$this->birth_year = $infos["birth_year"];
+			$this->setGender($infos["gender"]);
+			$this->email = $infos["email"];
+			if(isset($infos["phone"]))
+				$this->phone = $infos["phone"];
+		}
+
+		function setGender($gender) {
+			switch ($gender) {
+		    case "male":
+		    case "female":
+	        $this->gender = $gender;
+	        return true;
+		    default:
+			    return false;
+			}
+		}
+	}
