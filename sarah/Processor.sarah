@@ -188,6 +188,7 @@
 			global $dbk;
 			global $userid;
 
+			/*
 			//Is Sarah expecting an answer from a question
 			$query = $dbk->prepare("SELECT * FROM users WHERE uid = ?");
 			$query->execute(array($userid));
@@ -212,10 +213,7 @@
 			}
 			$query = $dbk->prepare("UPDATE users SET askingQuestion=NULL WHERE uid=?");
 			$query->execute(array($userid));
-
-
-			//Is user input is a command
-			
+			*/
 
 			return "immediateResponse";
 		}

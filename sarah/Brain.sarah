@@ -10,8 +10,7 @@
 			$this->processor = $components["processor"];
 		}
 
-		
-
+		//take input, decide what to do with it
 		public function process($input){
 			$finalInput = Processor::purifyInput($input);
 			$action = $this->processor->nextAction($finalInput);
@@ -71,7 +70,7 @@
 					$query->execute();
 
 					//random through the alias for now
-					//TODO: tie this with a decision maker
+					//TODO: tie this with a output alias chooser
 					$finalOutput = "";
 					if($query->rowCount() > 0) {
 						$results = $query->fetchAll();
@@ -102,6 +101,7 @@
 				return $finalOutput;
 			}
 
+			//this run if there is no match for input alias
 			$query = $dbk->prepare('INSERT IGNORE INTO unregisteredInput SET input=?');
 			$query->bindParam(1, $input);
 			$query->execute();
@@ -135,7 +135,7 @@
 
 		
 
-		*/
+		
 
 		public function ask($question){
 			global $dbk;
@@ -173,8 +173,11 @@
 			return $questionAlias[$randomChoice];
 		}
 
+
 		private function responseToAnswer() {
 			return $this->express("end_convo");
 		}
+
+		*/
 		
 	}
