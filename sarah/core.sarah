@@ -5,12 +5,12 @@
 
 	class Sarah {
 		protected $brain;
-		protected $master;
+		public static $master;
 		function __construct($components) {
 			$this->brain = new sarah\Brain(array(
 				"processor" => new sarah\Processor()
 			));
-			$this->master = $components["master"];
+			self::$master = $components["master"];
 		}
 
 		public function think($input) {
