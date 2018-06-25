@@ -1,5 +1,14 @@
 <?php namespace sarah;
 	class Context {
+		//talking about something (Subject/Topics and References)
+		//Exprecting response or reactions?
+		//Identifiers! How Sarah can recognize the context (Keywords? Keyword priority? Unique IDs? Timestamp?)
+		//Sarah may need to ocnfirm the context with master if necessary
+
+		//TODOS:
+		//need a context manager which can create a context layer out of user input, or sarah's output
+		//need context table in db
+		//maybe keep the context layers in code? And only save the context in db when sarah need to remember it? If that's the case need to forget unused contexts
 
 		//mentioned keywords
 		public $keywords = array();
