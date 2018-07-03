@@ -10,6 +10,8 @@
 		//need context table in db
 		//maybe keep the context layers in code? And only save the context in db when sarah need to remember it? If that's the case need to forget unused contexts
 
+		public $timestamp = time();
+
 		//mentioned keywords
 		public $keywords = array();
 
