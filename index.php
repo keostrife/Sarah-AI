@@ -40,11 +40,11 @@
 	let response =document.querySelector("#response").innerHTML.trim(); 
 	if(response.indexOf("/img ") >= 0) {
 		let imgKeyword = response.substring(5);
-		fetch(`https://www.googleapis.com/customsearch/v1?cx=009614128495507084988:utzwquefton&q=${imgKeyword}&key=AIzaSyC0XRckudi5XGrGLkhyluv48doHimQcBoA`).then(function(response) {
+		fetch(`https://www.googleapis.com/customsearch/v1?cx=009614128495507084988:utzwquefton&searchType=image&q=${imgKeyword}&key=AIzaSyC0XRckudi5XGrGLkhyluv48doHimQcBoA`).then(function(response) {
 	    return response.json();
 	  })
-	  .then(function(myJson) {
-	    console.log(JSON.stringify(myJson));
+	  .then(function(data) {
+	    document.querySelector("#response").innerHTML = `<img src="${data.items[0].link}">`;
 	  });
 	}
 </script>
