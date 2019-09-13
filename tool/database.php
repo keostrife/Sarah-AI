@@ -1,7 +1,9 @@
 <?php
+	require_once("../../config.php");
+
 	//database config
 	$db_use = 'local';
-	if($_SERVER["HTTP_HOST"] == "sarah.sarahai.com") {
+	if($_SERVER["HTTP_HOST"] == "i.sarahai.com") {
 		$db_use = 'production';
 	}
 
@@ -13,9 +15,9 @@
 	} else if($db_use == 'production') {
 		//server infos
 		$db_hostname = "localhost";
-		$db_username = "";
-		$db_password = "";
-		$db_database = "";
+		$db_username = DB_USER;
+		$db_password = DB_PASS;
+		$db_database = "sarah";
 	}
 
 	//set up PDO

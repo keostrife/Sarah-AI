@@ -45,6 +45,12 @@
 			if(substr($result, -5) == " doin") {
 				$result = substr($result, 0, -5)." doing";
 			}
+			if(substr($result, -7) == ", sarah") {
+				$result = substr($result, 0, -7);
+			}
+			if(substr($result, -6) == ",sarah") {
+				$result = substr($result, 0, -6);
+			}
 			if(substr($result, -6) == " sarah") {
 				$result = substr($result, 0, -6);
 			}
