@@ -85,8 +85,8 @@
 
         
         $dbk->exec("INSERT IGNORE INTO users(username, uid) VALUES('guest','default')");
-        $sarahAge = date("Y")-1992;
-        $dbk->exec("INSERT IGNORE INTO users(email, username, first_name, last_name, full_name, age, gender, uid) VALUES('keo.strife@gmail.com','keo','Keo','Strife', 'Keo Strife', ".$sarahAge.", 'male', 'keo')");
+        $keoAge = date("Y")-1992;
+        $dbk->exec("INSERT IGNORE INTO users(email, username, first_name, last_name, age, gender, uid) VALUES('keo.strife@gmail.com','keo','Keo','Strife', ".$keoAge.", 'male', 'keo')");
 
         $dbk->commit();
 		
