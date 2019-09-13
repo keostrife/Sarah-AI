@@ -51,7 +51,7 @@
 	  .then(function(data) {
 	  	let item = {};
 			for(var i = 0; i<data.items.length; i++) {
-      	if(data.items[i].link.substr(-4) != ".jpg" && data.items[i].link.substr(-4) != ".png") continue;
+      	if(data.items[i].link.substr(-4) != ".jpg" && data.items[i].link.substr(-4) != ".png" && data.items[i].link.substr(-4) != ".gif") continue;
         item = data.items[i];
         break;
       }
