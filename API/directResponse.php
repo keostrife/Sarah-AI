@@ -20,7 +20,7 @@
 				));
 			}
 
-			$query = $dbk->prepare("INSERT INTO immediateResponse(input, output) VALUES(:input, :output)");
+			$query = $dbk->prepare("INSERT INTO immediateResponse(input, output, created_at) VALUES(:input, :output, NOW())");
 			$query->execute(array(
 				":input" => $_POST["input"],
 				":output" => $_POST["output"],
@@ -75,7 +75,7 @@
 				));
 			}
 
-			$query = $dbk->prepare("INSERT INTO outputAlias(output, alias) VALUES(:output, :alias)");
+			$query = $dbk->prepare("INSERT INTO outputAlias(output, alias, created_at) VALUES(:output, :alias, NOW())");
 			$query->execute(array(
 				":output" => $_POST["output"],
 				":alias" => $_POST["alias"],
