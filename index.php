@@ -30,7 +30,12 @@
 	
 	echo "<span id='response'>".$sarah->think($_GET["s"]??"Hi")."</span>";
 ?>
-
+<style>
+	img {
+		max-width: 300px;
+		max-height: 300px;
+	}
+</style>
 <form action="">
 	<input type="text" id="s" name="s" value="<?=$_GET["s"]??""?>">
 	<input type="submit">
