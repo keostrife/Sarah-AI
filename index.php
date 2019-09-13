@@ -49,7 +49,11 @@
 	    return response.json();
 	  })
 	  .then(function(data) {
-	    document.querySelector("#response").innerHTML = `<img src="${data.items[0].link}">`;
+	  	let firstResultIndex = 0;
+	  	while(data.items[firstResultIndex].link.substring(0.-4) != ".jpg" || data.items[firstResultIndex].link.substring(0.-4) != ".png") {
+	  		firstResultIndex++;
+	  	}
+	    document.querySelector("#response").innerHTML = `<img src="${data.items[firstResultIndex].link}">`;
 	  });
 	}
 </script>
