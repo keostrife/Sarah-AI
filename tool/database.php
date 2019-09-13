@@ -1,5 +1,5 @@
 <?php
-	require_once("../config.php");
+	require_once(ROOT_DIR."../config.php");
 
 	//database config
 	$db_use = 'local';
