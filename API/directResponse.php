@@ -47,7 +47,7 @@
 				));
 			}
 
-			$query = $dbk->prepare("INSERT INTO inputAlias(input, alias, created) VALUES(:input, :alias, NOW())");
+			$query = $dbk->prepare("INSERT INTO inputAlias(input, alias, created_at) VALUES(:input, :alias, NOW())");
 			$query->execute(array(
 				":input" => $_POST["input"],
 				":alias" => $_POST["alias"],
