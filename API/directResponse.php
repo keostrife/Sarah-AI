@@ -1,7 +1,7 @@
 <?php
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
-	
+
 	session_start();
 	
 
@@ -47,7 +47,7 @@
 				));
 			}
 
-			$query = $dbk->prepare("INSERT INTO inputAlias(input, alias) VALUES(:input, :alias)");
+			$query = $dbk->prepare("INSERT INTO inputAlias(input, alias, created) VALUES(:input, :alias, NOW())");
 			$query->execute(array(
 				":input" => $_POST["input"],
 				":alias" => $_POST["alias"],
