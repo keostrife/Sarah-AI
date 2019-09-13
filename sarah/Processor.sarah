@@ -36,6 +36,9 @@
 			if(substr($result, -3) == " ur") {
 				$result = substr($result, 0, -3)." your";
 			}
+			if(substr($result, 0, 3) == "ur ") {
+				$result = substr($result, 0, 3)."your ";
+			}
 			if(substr($result, -3) == " urself") {
 				$result = substr($result, 0, -7)." yourself";
 			}
