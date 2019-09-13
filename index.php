@@ -3,7 +3,7 @@
 
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
-	
+
 	//assume that user already logged in
 	session_start();
 
@@ -20,7 +20,8 @@
 		"birth_day" => 13,
 		"birth_month" => 5,
 		"birth_year" => 1992,
-		"email" => "keo.strife@gmail.com"
+		"email" => "keo.strife@gmail.com",
+		"gender" => "male"
 	));
 
 	$sarah = new Sarah(array(
