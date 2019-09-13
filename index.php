@@ -36,6 +36,6 @@
 ?>
 
 <form action="">
-	<input type="text" id="s" name="s" value="<?=$_GET["s"]?>">
+	<input type="text" id="s" name="s" value="<?=$_GET["s"]??""?>">
 	<input type="submit">
 </form>
