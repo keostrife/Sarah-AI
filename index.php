@@ -1,5 +1,9 @@
 <?php
 	use sarah;
+
+	error_reporting(E_ALL);
+	ini_set('display_errors', 1);
+	
 	//assume that user already logged in
 	session_start();
 
@@ -18,6 +22,7 @@
 		"birth_year" => 1992,
 		"email" => "keo.strife@gmail.com"
 	));
+
 	$sarah = new Sarah(array(
 		"master" => $masterUser
 	));
