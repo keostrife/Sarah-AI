@@ -49,11 +49,13 @@
 	    return response.json();
 	  })
 	  .then(function(data) {
-	  	let firstResultIndex = 0;
-	  	while(data.items[firstResultIndex].link.substring(0.-4) != ".jpg" || data.items[firstResultIndex].link.substring(0.-4) != ".png") {
-	  		firstResultIndex++;
-	  	}
-	    document.querySelector("#response").innerHTML = `<img src="${data.items[firstResultIndex].link}">`;
+	  	let item = {};
+			for(var i = 0; i<data.items.length; i++) {
+      	if(data.items[i].link.substr(-4) != ".jpg" && data.items[i].link.substr(-4) != ".png") continue;
+        item = data.items[i];
+        break;
+      }
+	    document.querySelector("#response").innerHTML = `<img src="${item.link}">`;
 	  });
 	}
 </script>
