@@ -1,8 +1,6 @@
 <?php namespace sarah;
 	class Processor {
 
-		private $context = array();
-
 		function __construct() {
 			
 		}
@@ -10,7 +8,6 @@
 		static function purifyInput($input){
 			$result = strtolower($input);
 			$result = trim($result);
-
 			$result = str_replace(" ur ", " your ", $result);
 			$result = str_replace(" urself ", " yourself ", $result);
 			$result = str_replace(" r ", " are ", $result);
@@ -33,21 +30,35 @@
 			if(substr($result, -2) == " u") {
 				$result = substr($result, 0, -2)." you";
 			}
+			if(substr($result, 0, 2) == "u ") {
+				$result = "you ".substr($result, 2);
+			}
+
 			if(substr($result, -3) == " ur") {
 				$result = substr($result, 0, -3)." your";
 			}
 			if(substr($result, 0, 3) == "ur ") {
 				$result = "your ".substr($result, 3);
 			}
-			if(substr($result, -3) == " urself") {
-				$result = substr($result, 0, -7)." yourself";
-			}
+			
 			if(substr($result, -2) == " r") {
 				$result = substr($result, 0, -2)." are";
 			}
+			if(substr($result, 0, 2) == "r ") {
+				$result = "are ".substr($result, 2);
+			}
+
+			if(substr($result, -3) == " urself") {
+				$result = substr($result, 0, -7)." yourself";
+			}
+
 			if(substr($result, -5) == " doin") {
 				$result = substr($result, 0, -5)." doing";
 			}
+			if(substr($result, 0, 5) == "doin ") {
+				$result = "doing ".substr($result, 5);
+			}
+
 			if(substr($result, -7) == ", sarah") {
 				$result = substr($result, 0, -7);
 			}
@@ -63,10 +74,10 @@
 			if(substr($result, 0, 7) == "sarah, ") {
 				$result = substr($result, 7);
 			}
-			if(substr($result, 0, 7) == "oh sarah, ") {
+			if(substr($result, 0, 10) == "oh sarah, ") {
 				$result = substr($result, 10);
 			}
-			if(substr($result, 0, 7) == "im") {
+			if(substr($result, 0, 2) == "im") {
 				$result = "i am ".substr($result, 2);
 			}
 			while(!preg_match("/[a-zA-Z0-9]/",substr($result, -1))) {

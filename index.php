@@ -28,14 +28,23 @@
 		"master" => $masterUser
 	));
 	
-	if(!isset($_GET["s"])) {
-		echo $sarah->think("Hi");
-	} else {
-		echo $sarah->think($_GET["s"]);
-	}
+	echo "<span id='response'>".$sarah->think($_GET["s"]??"Hi")."</span>";
 ?>
 
 <form action="">
 	<input type="text" id="s" name="s" value="<?=$_GET["s"]??""?>">
 	<input type="submit">
 </form>
+
+<script>
+	let response =document.querySelector("#response").innerHTML.trim(); 
+	if(response.indexOf("/img ") >= 0) {
+		let imgKeyword = response.substring(5);
+		fetch(`https://www.googleapis.com/customsearch/v1?cx=009614128495507084988:utzwquefton&q=${imgKeyword}&key=AIzaSyC0XRckudi5XGrGLkhyluv48doHimQcBoA`).then(function(response) {
+	    return response.json();
+	  })
+	  .then(function(myJson) {
+	    console.log(JSON.stringify(myJson));
+	  });
+	}
+</script>

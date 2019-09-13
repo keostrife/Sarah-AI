@@ -2,13 +2,15 @@
 	use sarah;
 	require_once("./sarah/Brain.sarah");
 	require_once("./sarah/Processor.sarah");
+	require_once("./sarah/Memory.sarah");
 
 	class Sarah {
 		protected $brain;
 		public static $master;
 		function __construct($components) {
 			$this->brain = new sarah\Brain(array(
-				"processor" => new sarah\Processor()
+				"processor" => new sarah\Processor(),
+				"memory" => new sarah\Memory()
 			));
 			self::$master = $components["master"];
 		}
