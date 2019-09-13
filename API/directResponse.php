@@ -1,9 +1,12 @@
 <?php
+	error_reporting(E_ALL);
+	ini_set('display_errors', 1);
+	
 	session_start();
 	
 
 	include_once("../tool/database.php");
-	include_once("../tool/databaseInit.php");
+	// include_once("../tool/databaseInit.php");
 
 	if(isset($_POST["add"])) {
 		if(isset($_POST["type"]) && $_POST["type"] == "directResponse") {

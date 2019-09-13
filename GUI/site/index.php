@@ -6,7 +6,7 @@
 	session_start();
 
 	require_once("../../tool/database.php");
-	require_once("../../tool/databaseInit.php");
+	// require_once("../../tool/databaseInit.php");
 
 	global $dbk;
 
