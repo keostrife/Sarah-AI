@@ -1,3 +1,7 @@
+
+# custom file extensions
+AddType application/x-httpd-php keo strife template view model helper partial request setting api service library
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /

@@ -68,6 +68,7 @@
 			if(substr($result, -6) == " sarah") {
 				$result = substr($result, 0, -6);
 			}
+			
 			if(substr($result, 0, 6) == "sarah ") {
 				$result = substr($result, 6);
 			}
@@ -82,6 +83,9 @@
 			}
 			while(!preg_match("/[a-zA-Z0-9]/",substr($result, -1))) {
 				$result = substr($result, 0, -1);
+			}
+			if(substr($result, -7) == " please") {
+				$result = substr($result, 0, -7);
 			}
 
 			return $result;

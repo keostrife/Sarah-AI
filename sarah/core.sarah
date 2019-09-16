@@ -7,13 +7,14 @@
 	class Sarah {
 		protected $brain;
 		public static $master;
+		public static $self;
 		function __construct($components) {
 			$this->brain = new sarah\Brain(array(
 				"processor" => new sarah\Processor(),
 				"memory" => new sarah\Memory()
 			));
 			self::$master = $components["master"];
-			self::$self = $components["self"]
+			self::$self = $components["self"];
 		}
 
 		public function think($input) {

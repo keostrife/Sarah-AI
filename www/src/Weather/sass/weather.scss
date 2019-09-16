@@ -1,0 +1,47 @@
+.weather-container {
+	width: 100%;
+	float: left;
+	h2 {
+		width: 100%;
+		float: left;
+		margin-bottom: 15px;
+	}
+	figure {
+		width: 200px;
+		float: left;
+		margin: 0 15px 15px 0;
+		height: 100px;
+		border: 1px grey solid;
+
+		.left-column {
+			width: 100px;
+			float: left;
+		}
+		img.icon {
+			float: left;
+			width: 100%;
+		}
+		.des {
+			float: left;
+			width: 100%;
+			color: darkgrey;
+		}
+
+		.right-column {
+			width: 100px;
+			float: right;
+		}
+		.time {
+			float: left;
+			width: 100%;
+		}
+		.temp {
+			color: #cc0000;
+			font-size: 2rem;
+		}
+		.hum {
+			color: blue;
+			font-size: 1.6rem;
+		}
+	}
+}

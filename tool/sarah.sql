@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.1
+-- version 4.6.6deb5
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:8889
--- Generation Time: Jul 31, 2017 at 01:12 PM
--- Server version: 5.6.35
--- PHP Version: 5.6.30
+-- Host: localhost:3306
+-- Generation Time: Sep 16, 2019 at 08:27 PM
+-- Server version: 5.7.27-0ubuntu0.18.04.1
+-- PHP Version: 7.2.19-0ubuntu0.18.04.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -54,7 +54,9 @@ INSERT INTO `immediateResponse` (`id`, `created_at`, `updated_at`, `input`, `out
 (10, '2016-08-23 11:16:46', '2016-08-23 16:16:46', 'sarah wrong', 'sorry'),
 (11, '2016-08-23 11:25:01', '2016-08-23 16:25:01', 'sarah existence', 'sarah existence'),
 (12, '2016-08-23 11:29:31', '2016-08-23 16:29:31', 'rude', 'be nice'),
-(13, '2016-08-23 11:31:44', '2016-08-23 16:31:44', 'goodbye', 'goodbye');
+(13, '2016-08-23 11:31:44', '2016-08-23 16:31:44', 'goodbye', 'goodbye'),
+(14, '2019-09-13 16:32:41', '2019-09-13 16:32:41', 'does Keo suck?', 'no'),
+(15, '2019-09-16 20:22:47', '2019-09-16 20:22:47', 'show weather', 'show weather');
 
 -- --------------------------------------------------------
 
@@ -131,7 +133,25 @@ INSERT INTO `inputAlias` (`id`, `created_at`, `updated_at`, `input`, `alias`, `r
 (62, '2016-08-23 11:32:44', '2016-08-23 16:32:44', 'goodbye', 'see you', '0'),
 (63, '2016-08-23 11:32:48', '2016-08-23 16:32:48', 'goodbye', 'see ya', '0'),
 (64, '2016-08-23 11:32:53', '2016-08-23 16:32:53', 'goodbye', 'see you later', '0'),
-(65, '2016-08-23 11:32:56', '2016-08-23 16:32:56', 'goodbye', 'later', '0');
+(65, '2016-08-23 11:32:56', '2016-08-23 16:32:56', 'goodbye', 'later', '0'),
+(81, '2019-09-13 16:25:20', '2019-09-13 16:26:55', 'sarah attention', 'yo', '0'),
+(82, '2019-09-13 16:33:19', '2019-09-13 16:33:19', 'does Keo suck?', 'keo sucks right', '0'),
+(83, '2019-09-13 16:45:54', '2019-09-13 16:45:54', 'sarah wrong', 'will you ever learn', '0'),
+(84, '2019-09-13 16:46:24', '2019-09-13 16:46:24', 'sarah attention', 'test test test', '0'),
+(85, '2019-09-13 16:46:29', '2019-09-13 16:46:29', 'sarah attention', 'test test', '0'),
+(86, '2019-09-13 16:46:59', '2019-09-13 16:46:59', 'sarah attention', 'wake up', '0'),
+(87, '2019-09-16 18:42:58', '2019-09-16 18:42:58', 'sarah wellbeing', 'how is it going', '0'),
+(88, '2019-09-16 20:22:59', '2019-09-16 20:22:59', 'show weather', 'show me the weather', '0'),
+(89, '2019-09-16 20:23:05', '2019-09-16 20:23:05', 'show weather', 'show me weather', '0'),
+(90, '2019-09-16 20:23:12', '2019-09-16 20:23:12', 'show weather', 'weather', '0'),
+(91, '2019-09-16 20:23:19', '2019-09-16 20:23:19', 'show weather', 'what is the weather today', '0'),
+(92, '2019-09-16 20:23:24', '2019-09-16 20:23:24', 'show weather', 'what is the weather', '0'),
+(93, '2019-09-16 20:23:28', '2019-09-16 20:23:28', 'show weather', 'the weather', '0'),
+(94, '2019-09-16 20:23:34', '2019-09-16 20:23:34', 'show weather', 'weather please', '0'),
+(95, '2019-09-16 20:25:16', '2019-09-16 20:25:16', 'show weather', 'how is the weather', '0'),
+(96, '2019-09-16 20:25:24', '2019-09-16 20:25:24', 'show weather', 'how is weather', '0'),
+(97, '2019-09-16 20:26:12', '2019-09-16 20:26:12', 'show weather', 'show me the weather at [keyword]', '0'),
+(98, '2019-09-16 20:26:22', '2019-09-16 20:26:22', 'show weather', 'weather at [keyword]', '0');
 
 -- --------------------------------------------------------
 
@@ -189,7 +209,10 @@ INSERT INTO `outputAlias` (`id`, `created_at`, `updated_at`, `output`, `alias`, 
 (38, '2016-08-23 11:32:00', '2016-08-23 16:32:00', 'goodbye', 'bye bye', NULL),
 (39, '2016-08-23 11:32:07', '2016-08-23 16:32:07', 'goodbye', 'you too :D', NULL),
 (40, '2016-08-23 11:32:12', '2016-08-23 16:32:12', 'goodbye', 'see ya!', NULL),
-(41, '2016-08-23 11:32:18', '2016-08-23 16:32:18', 'goodbye', 'later!', NULL);
+(41, '2016-08-23 11:32:18', '2016-08-23 16:32:18', 'goodbye', 'later!', NULL),
+(42, '2019-09-13 16:32:58', '2019-09-13 16:32:58', 'no', 'no', NULL),
+(43, '2019-09-16 18:43:22', '2019-09-16 18:43:22', 'greeting wellbeing', 'life is good', NULL),
+(44, '2019-09-16 20:26:49', '2019-09-16 20:26:49', 'show weather', '/weather [keyword]', NULL);
 
 -- --------------------------------------------------------
 
@@ -365,7 +388,12 @@ INSERT INTO `unregisteredInput` (`id`, `created_at`, `updated_at`, `input`) VALU
 (107, '0000-00-00 00:00:00', '2017-01-31 18:36:09', 'yet'),
 (108, '0000-00-00 00:00:00', '2017-01-31 18:36:10', 'i do not understand i can\'t speak english that well yet'),
 (109, '0000-00-00 00:00:00', '2017-01-31 18:36:10', 'please'),
-(110, '0000-00-00 00:00:00', '2017-01-31 18:36:10', 'please keep');
+(110, '0000-00-00 00:00:00', '2017-01-31 18:36:10', 'please keep'),
+(111, '0000-00-00 00:00:00', '2019-09-13 16:09:57', 'what isup'),
+(112, '0000-00-00 00:00:00', '2019-09-13 16:10:13', 'poop'),
+(113, '0000-00-00 00:00:00', '2019-09-13 16:10:21', 'yo'),
+(114, '0000-00-00 00:00:00', '2019-09-13 16:42:08', 'ur your'),
+(115, '0000-00-00 00:00:00', '2019-09-13 20:34:50', 'what does the fox say');
 
 -- --------------------------------------------------------
 
@@ -412,7 +440,8 @@ INSERT INTO `users` (`id`, `uid`, `created_at`, `updated_at`, `email`, `username
 (9, '1094825483921755', '0000-00-00 00:00:00', '2016-08-11 19:04:51', NULL, NULL, NULL, 'Bebe', 'Ribbit', 'male', NULL, NULL, NULL, NULL, NULL, NULL),
 (10, '1393548170672917', '0000-00-00 00:00:00', '2016-08-18 22:43:35', NULL, NULL, NULL, 'Tyler', 'Cot%C3%A9', 'male', NULL, NULL, NULL, NULL, NULL, NULL),
 (11, '956844934437918', '0000-00-00 00:00:00', '2016-08-19 16:27:19', NULL, NULL, NULL, 'undefined', 'undefined', 'undefined', NULL, NULL, NULL, NULL, NULL, NULL),
-(12, '1157340331004012', '0000-00-00 00:00:00', '2016-08-23 14:09:40', NULL, NULL, NULL, 'Bebe', 'Ribbit', 'male', NULL, NULL, NULL, NULL, NULL, NULL);
+(12, '1157340331004012', '0000-00-00 00:00:00', '2016-08-23 14:09:40', NULL, NULL, NULL, 'Bebe', 'Ribbit', 'male', NULL, NULL, NULL, NULL, NULL, NULL),
+(13, 'keo', '0000-00-00 00:00:00', '2019-09-13 16:09:53', 'keo.strife@gmail.com', 'keo', NULL, 'Keo', 'Strife', 'male', NULL, '27', NULL, NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -477,17 +506,17 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `immediateResponse`
 --
 ALTER TABLE `immediateResponse`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `inputAlias`
 --
 ALTER TABLE `inputAlias`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 --
 -- AUTO_INCREMENT for table `outputAlias`
 --
 ALTER TABLE `outputAlias`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 --
 -- AUTO_INCREMENT for table `questionAlias`
 --
@@ -502,12 +531,12 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT for table `unregisteredInput`
 --
 ALTER TABLE `unregisteredInput`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
