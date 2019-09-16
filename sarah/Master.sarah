@@ -1,14 +1,14 @@
 <?php namespace sarah;
 	class Master {
-		private $first_name;
-		private $last_name;
-		private $birth_day;
-		private $birth_month;
-		private $birth_year;
-		private $gender;
-		private $email;
-		private $phone;
-		private $id; //this is some sort of username, can use email for this?
+		public $first_name;
+		public $last_name;
+		public $birth_day;
+		public $birth_month;
+		public $birth_year;
+		public $gender;
+		public $email;
+		public $phone;
+		public $id; //this is some sort of username, can use email for this?
 		
 		function __construct($infos){
 			$this->first_name = $infos["first_name"];

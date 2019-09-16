@@ -80,6 +80,7 @@
 								$finalOutput = $results[$i]["alias"];
 								break;
 							} else {
+								//validation codes? tags? [time]morning[time]?
 								$validation = create_function('$input',$results[$i]["validation"]);
 								if($validation($input)) {
 									$finalOutput = $results[$i]["alias"];

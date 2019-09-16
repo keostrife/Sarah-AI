@@ -1,6 +1,4 @@
 <?php
-	use sarah;
-
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 
@@ -24,18 +22,38 @@
 		"gender" => "male"
 	));
 
+	$sarah = new sarah\Master(array(
+		"first_name" => "Sarah",
+		"last_name" => "Lockhart",
+		"birth_day" => 3,
+		"birth_month" => 5,
+		"birth_year" => 1987,
+		"email" => "keo.strife@gmail.com",
+		"gender" => "female"
+	));
+
 	$sarah = new Sarah(array(
-		"master" => $masterUser
+		"master" => $masterUser,
+		"self" => $sarah
 	));
 	
-	echo "<span id='response'>".$sarah->think($_GET["s"]??"Hi")."</span>";
+	
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sarah Lockhart</title>
 <style>
 	img {
 		max-width: 300px;
 		max-height: 300px;
 	}
 </style>
+</head>
+<body>
+<?php
+	echo "<span id='response'>".$sarah->think($_GET["s"]??"test")."</span>";
+?>
 <form action="">
 	<input type="text" id="s" name="s" value="<?=$_GET["s"]??""?>">
 	<input type="submit">
@@ -59,3 +77,5 @@
 	  });
 	}
 </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <?php
-	use sarah;
+	
 	require_once("./sarah/Brain.sarah");
 	require_once("./sarah/Processor.sarah");
 	require_once("./sarah/Memory.sarah");
@@ -13,6 +13,7 @@
 				"memory" => new sarah\Memory()
 			));
 			self::$master = $components["master"];
+			self::$self = $components["self"]
 		}
 
 		public function think($input) {

@@ -96,6 +96,7 @@
 				$endPos = strpos($output, "[/user]");
 				$userKey = substr($output, $startPos + strlen("[user]"), $endPos - $startPos - strlen("[user]"));
 
+				/*
 				$query = $dbk->prepare('SELECT * FROM users WHERE uid=?');
 				$query->bindParam(1, $userid);
 				$query->execute();
@@ -104,7 +105,8 @@
 					$userValue = $user[$userKey];
 				else
 					$userValue = "";
-				
+				*/
+				$userValue = \Sarah::$master->$userKey;
 				$finalString = substr($output, 0, $startPos) . $userValue . substr($output, $endPos + strlen("[/user]"));
 				$output = $finalString;
 			}
@@ -114,6 +116,7 @@
 				$startPos = strpos($output, "[sarah]");
 				$endPos = strpos($output, "[/sarah]");
 				$userKey = substr($output, $startPos + strlen("[sarah]"), $endPos - $startPos - strlen("[sarah]"));
+				/*
 				$query = $dbk->prepare('SELECT * FROM users WHERE uid="sarah"');
 				$query->execute();
 				$user = $query->fetch();
@@ -121,7 +124,8 @@
 					$userValue = $user[$userKey];
 				else
 					$userValue = "";
-
+				*/
+				$userValue = \Sarah::$self->$userKey;
 				$finalString = substr($output, 0, $startPos) . $userValue . substr($output, $endPos + strlen("[/sarah]"));
 				$output = $finalString;
 			}
