@@ -123,7 +123,34 @@
 			$query->bindParam(1, $input);
 			$query->execute();
 
+			return $this->structuredResponse($input);
+
 			return $this->express("unknown_command");
+		}
+
+		private function structuredResponse($input) {
+			//4 type of questions
+			if(substr($input, 0, 3) == "how") {
+				return "In the usual way.";
+			}
+			if(substr($input, 0, 4) == "what") {
+				return "whatever";
+			}
+			if(substr($input, 0, 4) == "when") {
+				return "5000 years ago in the future";
+			}
+			if(substr($input, 0, 5) == "where") {
+				return "At a location unknown to you, apparently";
+			}
+			if(substr($input, 0, 3) == "why") {
+				return "due to reasons";
+			}
+			if(substr($input, 0, 3) == "who") {
+				return "somebody";
+			}
+			if(substr($input, 0, 3) == "can") {
+				return "maybe";
+			}
 		}
 
 		/*

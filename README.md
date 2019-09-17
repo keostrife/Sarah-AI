@@ -24,13 +24,15 @@ This is still directly responding to user input, but a lot more efficiently and 
 
 ### 1.2 Tags
 
-It is very common for an expression to contain information or nested expression inside. For example, "Hi Mark" contains a "Greeting" expression and the user's first name. "I'm fine thank you" contains the expression of i'm fine and thank you. So for output alias, I use tags to have the same effect. [user]first_name[/user] for example will be replaced by user's first name. I'm fine [express]thank[/express] will be I'm fine + one of the alias for the "thank" output. [ask]age[/ask] will be replaced with a question asked by Sarah (this feature is not yet finalized and will be covered in this documentation once it is). The tag makes Sarah's response becomes dynamic and flexible.
+It is very common for an expression to contain information or nested expression inside. For example, "Hi Mark" contains a "Greeting" expression and the user's first name. "I'm fine thank you" contains the expression of i'm fine and thank you. So for output alias, I use tags to have the same effect. [user]first_name[/user] for example will be replaced by user's first name. I'm fine [express]thank[/express] will be I'm fine + one of the alias for the "thank" output. [ask]age[/ask] will be replaced with a question asked by Sarah (this feature is not yet finalized and will be covered in this documentation once it is). The tag makes Sarah's response becomes dynamic and flexible. You can have maximum 1 nested input, ex: [input]show weather[/input] at [keyword]
+
+
 
 Note that you can change the bracket so it's more html like if you want.
 
 ### 1.3 Keywords
 
-Since Sarah's focus is to excuting verbal commands, being able to extract keywords from input alias is very important. My current script can only extract keywords stably as long as there are no more than 2 in the same input alias (regex also works). But I'm sure you talents out there can make it work. For example, "Show me puppies" would trigger the "show me [keyword]" alias with "puppies" extracted to be used by applications.
+Since Sarah's focus is to excuting verbal commands, being able to extract keywords from input alias is very important. My current script can only extract keywords stably as long as there are no more than 2 in the same input alias (regex also works). But I'm sure you talents out there can make it work. For example, "Show me puppies" would trigger the "show me [keyword]" alias with "puppies" extracted to be used by applications. A Regex need to be provided with the input alias in order to detect and extrack these keywords properly
 
 ## 2. Users
 
@@ -42,10 +44,9 @@ This is not hard to change later on, the user table is still there.
 
 ## 3. Collecting information
 
-###  3.1 Context layers
+###  3.1 Memory Layers
 
-In development -_-
-
+In development
 
 ## 4. Application suits
 
