@@ -45,7 +45,7 @@
 		private function immediateResponse($input) {
 
 			global $dbk;
-			$query = $dbk->prepare('SELECT * FROM inputAlias WHERE alias=:input UNION SELECT * FROM inputAlias WHERE :input REGEXP regex ORDER BY regex ASC, length(alias) DESC');
+			$query = $dbk->prepare('SELECT * FROM inputAlias WHERE alias=:input UNION (SELECT * FROM inputAlias WHERE :input REGEXP regex ORDER BY regex DESC, length(alias) DESC)');
 			$param = trim(strtolower($input));
 			$query->bindParam(":input", $param);
 			$query->execute();

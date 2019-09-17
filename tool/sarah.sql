@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Sep 16, 2019 at 04:51 PM
+-- Generation Time: Sep 17, 2019 at 11:45 AM
 -- Server version: 5.7.26
 -- PHP Version: 7.3.7
 
@@ -58,7 +58,10 @@ INSERT INTO `immediateResponse` (`id`, `created_at`, `updated_at`, `input`, `out
 (14, '2019-09-13 16:32:41', '2019-09-13 16:32:41', 'does Keo suck?', 'no'),
 (15, '2019-09-16 20:22:47', '2019-09-16 20:22:47', 'show weather', 'show weather'),
 (16, '2019-09-16 16:33:17', '2019-09-16 20:33:17', 'Thank Sarah', 'Thank reply'),
-(17, '2019-09-16 16:40:09', '2019-09-16 20:40:09', 'asking about Siri', 'Trash Siri');
+(17, '2019-09-16 16:40:09', '2019-09-16 20:40:09', 'asking about Siri', 'Trash Siri'),
+(18, '2019-09-17 09:32:01', '2019-09-17 13:32:01', 'sarah creator', 'sarah creator'),
+(19, '2019-09-17 09:35:12', '2019-09-17 13:35:12', 'sarah abilities', 'sarah abilities'),
+(20, '2019-09-17 10:13:48', '2019-09-17 14:15:27', 'show weather in city', 'show weather in city');
 
 -- --------------------------------------------------------
 
@@ -143,15 +146,15 @@ INSERT INTO `inputAlias` (`id`, `created_at`, `updated_at`, `input`, `alias`, `r
 (85, '2019-09-13 16:46:29', '2019-09-13 16:46:29', 'sarah attention', 'test test', '0'),
 (86, '2019-09-13 16:46:59', '2019-09-13 16:46:59', 'sarah attention', 'wake up', '0'),
 (87, '2019-09-16 18:42:58', '2019-09-16 18:42:58', 'sarah wellbeing', 'how is it going', '0'),
-(88, '2019-09-16 20:22:59', '2019-09-16 20:22:59', 'show weather', 'show me the weather', '0'),
-(89, '2019-09-16 20:23:05', '2019-09-16 20:23:05', 'show weather', 'show me weather', '0'),
-(90, '2019-09-16 20:23:12', '2019-09-16 20:23:12', 'show weather', 'weather', '0'),
-(91, '2019-09-16 20:23:19', '2019-09-16 20:23:19', 'show weather', 'what is the weather today', '0'),
-(92, '2019-09-16 20:23:24', '2019-09-16 20:23:24', 'show weather', 'what is the weather', '0'),
-(93, '2019-09-16 20:23:28', '2019-09-16 20:23:28', 'show weather', 'the weather', '0'),
+(88, '2019-09-16 20:22:59', '2019-09-17 14:45:17', 'show weather', 'show me the weather [keyword]', '^(show me the weather)(.*)$'),
+(89, '2019-09-16 20:23:05', '2019-09-17 14:45:25', 'show weather', 'show me weather [keyword]', '^(show me weather)(.*)$'),
+(90, '2019-09-16 20:23:12', '2019-09-17 14:45:33', 'show weather', 'weather [keyword]', '^(weather)(.*)$'),
+(91, '2019-09-16 20:23:19', '2019-09-17 14:44:57', 'show weather', 'what is the weather today [keyword]', '^(what is the weather today)(.*)$'),
+(92, '2019-09-16 20:23:24', '2019-09-17 14:44:32', 'show weather', 'what is the weather [keyword]', '^(what is the weather)(.*)$'),
+(93, '2019-09-16 20:23:28', '2019-09-17 14:30:36', 'show weather', 'the weather [keyword]', '^(the weather)(.*)$'),
 (94, '2019-09-16 20:23:34', '2019-09-16 20:23:34', 'show weather', 'weather please', '0'),
-(95, '2019-09-16 20:25:16', '2019-09-16 20:25:16', 'show weather', 'how is the weather', '0'),
-(96, '2019-09-16 20:25:24', '2019-09-16 20:25:24', 'show weather', 'how is weather', '0'),
+(95, '2019-09-16 20:25:16', '2019-09-17 14:46:01', 'show weather', 'how is the weather [keyword]', '^(how is the weather)(.*)$'),
+(96, '2019-09-16 20:25:24', '2019-09-17 14:45:54', 'show weather', 'how is weather [keyword]', '^(how is weather)(.*)$'),
 (99, '2019-09-16 16:33:30', '2019-09-16 20:33:30', 'Thank Sarah', 'thank you', '0'),
 (100, '2019-09-16 16:33:35', '2019-09-16 20:33:35', 'Thank Sarah', 'thanks', '0'),
 (101, '2019-09-16 16:33:52', '2019-09-16 20:33:52', 'Thank Sarah', 'appreciate it', '0'),
@@ -163,7 +166,27 @@ INSERT INTO `inputAlias` (`id`, `created_at`, `updated_at`, `input`, `alias`, `r
 (107, '2019-09-16 16:42:00', '2019-09-16 20:42:00', 'asking about Siri', 'how about Siri', '0'),
 (108, '2019-09-16 16:42:10', '2019-09-16 20:42:10', 'asking about Siri', 'did you meet Siri', '0'),
 (109, '2019-09-16 16:42:17', '2019-09-16 20:42:17', 'asking about Siri', 'have you met siri', '0'),
-(110, '2019-09-16 16:43:40', '2019-09-16 20:43:40', 'asking about Siri', 'fight Siri', '0');
+(110, '2019-09-16 16:43:40', '2019-09-16 20:43:40', 'asking about Siri', 'fight Siri', '0'),
+(111, '2019-09-17 09:29:57', '2019-09-17 13:29:57', 'show weather', 'how is the weather in your area', '0'),
+(112, '2019-09-17 09:30:02', '2019-09-17 13:30:02', 'show weather', 'how is the weather in my area', '0'),
+(113, '2019-09-17 09:30:08', '2019-09-17 13:30:08', 'show weather', 'how is the weather around', '0'),
+(114, '2019-09-17 09:30:12', '2019-09-17 13:30:12', 'show weather', 'how is the weather near me', '0'),
+(115, '2019-09-17 09:30:18', '2019-09-17 13:30:18', 'show weather', 'how is the weather nearby', '0'),
+(116, '2019-09-17 09:30:23', '2019-09-17 13:30:23', 'show weather', 'how is the weather near you', '0'),
+(117, '2019-09-17 09:32:10', '2019-09-17 13:32:10', 'sarah creator', 'who made you', '0'),
+(118, '2019-09-17 09:32:15', '2019-09-17 13:32:15', 'sarah creator', 'who named you', '0'),
+(119, '2019-09-17 09:32:26', '2019-09-17 13:32:26', 'sarah creator', 'who is your creator', '0'),
+(120, '2019-09-17 09:32:42', '2019-09-17 13:32:42', 'sarah creator', 'who created you', '0'),
+(121, '2019-09-17 09:33:04', '2019-09-17 13:33:04', 'sarah existence', 'what is you', '0'),
+(122, '2019-09-17 09:33:22', '2019-09-17 13:33:22', 'sarah creator', 'who is your maker', '0'),
+(123, '2019-09-17 09:35:21', '2019-09-17 13:35:21', 'sarah abilities', 'what can you do', '0'),
+(124, '2019-09-17 09:35:52', '2019-09-17 13:35:52', 'sarah abilities', 'what are your abilities', '0'),
+(125, '2019-09-17 09:36:04', '2019-09-17 13:36:04', 'sarah abilities', 'help me', '0'),
+(126, '2019-09-17 11:02:25', '2019-09-17 15:06:15', 'show things', 'show me pictures of [keyword]', '^(show me pictures of)(.*)$'),
+(127, '2019-09-17 11:03:06', '2019-09-17 15:06:04', 'show things', 'show me a picture of [keyword]', '^(show me a picture of)(.*)$'),
+(128, '2019-09-17 11:03:32', '2019-09-17 15:05:54', 'show things', 'show me some pictures of [keyword]', '^(show me some pictures of)(.*)$'),
+(129, '2019-09-17 11:03:52', '2019-09-17 15:05:44', 'show things', 'show me a few pictures of [keyword]', '^(show me a few pictures of)(.*)$'),
+(130, '2019-09-17 11:04:11', '2019-09-17 15:05:35', 'show things', 'show me pictures [keyword]', '^(show me pictures)(.*)$');
 
 -- --------------------------------------------------------
 
@@ -224,12 +247,17 @@ INSERT INTO `outputAlias` (`id`, `created_at`, `updated_at`, `output`, `alias`, 
 (41, '2016-08-23 11:32:18', '2016-08-23 16:32:18', 'goodbye', 'later!', NULL),
 (42, '2019-09-13 16:32:58', '2019-09-13 16:32:58', 'no', 'no', NULL),
 (43, '2019-09-16 18:43:22', '2019-09-16 18:43:22', 'greeting wellbeing', 'life is good', NULL),
-(44, '2019-09-16 20:26:49', '2019-09-16 20:29:43', 'show weather', '/weather current', NULL),
+(44, '2019-09-16 20:26:49', '2019-09-17 14:31:17', 'show weather', '/weather [keyword]', NULL),
 (45, '2019-09-16 16:34:02', '2019-09-16 20:34:02', 'Thank reply', 'you are welcome :)', NULL),
 (46, '2019-09-16 16:34:08', '2019-09-16 20:34:08', 'Thank reply', 'No problemo', NULL),
 (47, '2019-09-16 16:34:15', '2019-09-16 20:34:15', 'Thank reply', 'anytime', NULL),
 (48, '2019-09-16 16:34:44', '2019-09-16 20:35:02', 'Thank reply', 'my pleasure [user]first_name[/user]', NULL),
-(49, '2019-09-16 16:41:22', '2019-09-16 20:41:22', 'Trash Siri', 'Siri is a lil bitch', NULL);
+(49, '2019-09-16 16:41:22', '2019-09-16 20:41:22', 'Trash Siri', 'Siri is a lil bitch', NULL),
+(50, '2019-09-17 09:33:50', '2019-09-17 13:33:50', 'sarah creator', 'Keo, he doesn\'t wear pants', NULL),
+(51, '2019-09-17 09:34:04', '2019-09-17 13:34:04', 'sarah creator', 'Keo, he\'s very bad at video games', NULL),
+(52, '2019-09-17 09:34:14', '2019-09-17 13:34:14', 'sarah creator', 'Keo, he\'s a nerd', NULL),
+(53, '2019-09-17 09:34:52', '2019-09-17 13:34:52', 'sarah creator', 'Keo, he\'s a weeb that\'s why I have this weeb-y name', NULL),
+(54, '2019-09-17 09:36:42', '2019-09-17 13:36:42', 'sarah abilities', 'I can show you pictures or the weather', NULL);
 
 -- --------------------------------------------------------
 
@@ -411,7 +439,8 @@ INSERT INTO `unregisteredInput` (`id`, `created_at`, `updated_at`, `input`) VALU
 (113, '0000-00-00 00:00:00', '2019-09-13 16:10:21', 'yo'),
 (114, '0000-00-00 00:00:00', '2019-09-13 16:42:08', 'ur your'),
 (115, '0000-00-00 00:00:00', '2019-09-13 20:34:50', 'what does the fox say'),
-(116, '0000-00-00 00:00:00', '2019-09-16 20:32:35', 'thank you');
+(116, '0000-00-00 00:00:00', '2019-09-16 20:32:35', 'thank you'),
+(117, '0000-00-00 00:00:00', '2019-09-17 14:29:59', 'the weather');
 
 -- --------------------------------------------------------
 
@@ -524,19 +553,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `immediateResponse`
 --
 ALTER TABLE `immediateResponse`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `inputAlias`
 --
 ALTER TABLE `inputAlias`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
 -- AUTO_INCREMENT for table `outputAlias`
 --
 ALTER TABLE `outputAlias`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `questionAlias`
@@ -554,7 +583,7 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT for table `unregisteredInput`
 --
 ALTER TABLE `unregisteredInput`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 
 --
 -- AUTO_INCREMENT for table `users`
