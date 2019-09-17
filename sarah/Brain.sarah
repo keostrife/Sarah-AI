@@ -43,16 +43,31 @@
 
 		
 		private function immediateResponse($input) {
+			$result = null;
 
 			global $dbk;
-			$query = $dbk->prepare('SELECT * FROM inputAlias WHERE alias=:input UNION (SELECT * FROM inputAlias WHERE :input REGEXP regex ORDER BY regex DESC, length(alias) DESC)');
+			//non regex match
+			$query = $dbk->prepare('SELECT * FROM inputAlias WHERE alias=:input AND (regex = 0 OR regex = NULL)');
 			$param = trim(strtolower($input));
 			$query->bindParam(":input", $param);
 			$query->execute();
-			
+
 			if($query->rowCount() > 0) {
-				//the first result always is the nonregex one if it exists, or the longest regex match
 				$result = $query->fetch();
+			} else {
+				//regex matches, prioritize the longest one
+				$query = $dbk->prepare('SELECT * FROM inputAlias WHERE :input REGEXP regex ORDER BY length(alias) DESC');
+				$param = trim(strtolower($input));
+				$query->bindParam(":input", $param);
+				$query->execute();
+				if($query->rowCount() > 0) {
+					$result = $query->fetch();
+				}
+			}
+
+			
+			
+			if($result) {
 
 				//extract keywords from alias
 				$keywords = Processor::extractKeyword($input, $result["alias"]);
