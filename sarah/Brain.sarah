@@ -45,13 +45,13 @@
 		private function immediateResponse($input) {
 
 			global $dbk;
-			$query = $dbk->prepare('SELECT * FROM inputAlias WHERE alias=:input UNION SELECT * FROM inputAlias WHERE :input REGEXP regex');
+			$query = $dbk->prepare('SELECT * FROM inputAlias WHERE alias=:input UNION SELECT * FROM inputAlias WHERE :input REGEXP regex ORDER BY regex ASC, length(alias) DESC');
 			$param = trim(strtolower($input));
 			$query->bindParam(":input", $param);
 			$query->execute();
 			
 			if($query->rowCount() > 0) {
-				//the first result always is the nonregex one if it exists
+				//the first result always is the nonregex one if it exists, or the longest regex match
 				$result = $query->fetch();
 
 				//extract keywords from alias
@@ -95,6 +95,7 @@
 
 				//replace keywords from input into output
 				while(strpos($finalOutput, "[keyword]") !== FALSE) {
+					if(!$keywords || !count($keywords)) $keywords = [""];
 					$finalOutput = substr($finalOutput, 0, strpos($finalOutput, "[keyword]")) . $keywords[0] . substr($finalOutput, strpos($finalOutput, "[keyword]") + strlen("[keyword]"));
 					array_shift($keywords);
 				}

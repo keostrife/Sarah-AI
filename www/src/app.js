@@ -26,10 +26,17 @@ class App {
 
 		if(command.substring(0,8) == "/weather") {
 			let keyword = command.substring(9);
-			if(keyword == "current")
-				this.weather.getUserLocation();
-			else if (this.weather.keywords[keyword]) 
+			
+			if (keyword.substring(0,3) == "at " && this.weather.keywords[keyword.substring(3)]) {
+				//keyword such as "home/work/the beach"
+				keyword = keyword.substring(3);
 				this.weather.findWeather(this.weather.keywords[keyword].lat, this.weather.keywords[keyword].lng);
+			} else if (keyword.substring(0,3) == "in ") {
+				this.weather.findWeatherAtCity(keyword.substring(3));
+			} else {
+				//
+				this.weather.getUserLocation();
+			}
 
 			return true;
 		}

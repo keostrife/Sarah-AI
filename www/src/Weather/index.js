@@ -40,8 +40,8 @@ export default class Weather {
 					<div class="right-column">
 						<span class="des">${item.weather[0].description}</span>
 						<span class="time">${(new Date(item.dt_txt)).getHours()}:00</span>
-						<span class="temp">${Math.round(item.main.temp)}</span>
-						<span class="hum">${Math.round(item.main.humidity)}</span>
+						<span class="temp">${Math.round(item.main.temp)}°C</span>
+						<span class="hum">${Math.round(item.main.humidity)}%</span>
 					</div>
 				</figure>
 			`;
@@ -51,7 +51,7 @@ export default class Weather {
 	}
 
 	getUserLocation() {
-		window.app.sarah.speak("I'm getting the weather");
+		window.app.sarah.speak("I'm getting the weather near you, hang on");
 		navigator.geolocation.getCurrentPosition((position)=>{
 		  this.findWeather(position.coords.latitude, position.coords.longitude);
 		});
@@ -59,6 +59,16 @@ export default class Weather {
 
 	findWeather(lat, lng) {
 				fetch(`/API/weather.php?secret=boobs&lat=${lat}&lng=${lng}`).then((response)=>{
+			    return response.json();
+			  })
+			  .then((data)=>{
+			  	this.data = data;
+		      this.render();
+			  });
+	}
+
+	findWeatherAtCity(city) {
+				fetch(`/API/weather.php?secret=boobs&city=${city}`).then((response)=>{
 			    return response.json();
 			  })
 			  .then((data)=>{
