@@ -47,7 +47,7 @@
 
 			global $dbk;
 			//non regex match
-			$query = $dbk->prepare('SELECT * FROM inputAlias WHERE alias=:input AND (regex = 0 OR regex = NULL)');
+			$query = $dbk->prepare('SELECT * FROM inputAlias WHERE alias=:input AND (regex = 0 OR regex IS NULL)');
 			$param = trim(strtolower($input));
 			$query->bindParam(":input", $param);
 			$query->execute();
