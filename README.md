@@ -2,7 +2,7 @@
 
 # Sarah AI
 
-Even though Sarah AI development direction was toward being human-like, It is only to the extend that she can accept, understand and execute verbal commands and give appropriate verbal responses back. Sarah is not intended specificly to resemble human behaviour or take part in turing tests.
+Even though Sarah AI development direction was toward being human-like, It is only to the extend that she can accept, understand and execute verbal commands and give appropriate verbal responses back. Sarah is not intended specificly to resemble human behaviour or take part in turing tests. Or does she? Watch her pass all them turing tests
 
 Resources:
 
@@ -57,3 +57,13 @@ I'm not sure if anyone would be bored enough to read this or find this useful bu
 ## 5. To dos
 
 I'm currently working on a context system, which will help Sarah actively ask questions to user and expect a response, identify references (this, that, ...etc), and maybe Sarah can initiate conversations. Actually I have no idea what the fuck I am doing this may be a huge waste of time, but hey I literally have nothing better to do lol
+
+- Handle multiple sentence separated by period? Or "And/OR"
+- Rules for users?
+	+ 1 sentence at a time
+	+ clear grammar
+	+ rephrase and retry
+	+ ? at the end if it's a question?
+	+ Capitalize Names
+	+ he she targets only human, not object, don't address cars as she basically
+	+ clearly define context?

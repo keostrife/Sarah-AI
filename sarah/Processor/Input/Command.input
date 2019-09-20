@@ -1,0 +1,14 @@
+<?php namespace sarah\Processor\Input;
+	//define the format of commands that sarah understand/process
+	class Command {
+		//???
+		public static $commandTypes = ["????"];
+
+		public $type = "????"; //default to ????
+
+		
+
+		function __construct() {
+			
+		}
+	}

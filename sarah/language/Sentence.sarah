@@ -1,0 +1,154 @@
+<?php namespace sarah\language;
+	//translate English into code that sarah can understand
+	class Sentence {
+		public $language = "English";
+		public $isQuestion = true;
+		public $question = null;
+
+		function __construct(){
+			
+		}
+
+		static function purity($input) {
+			$result = strtolower($input);
+			$result = trim($result);
+			$result = str_replace(" ur ", " your ", $result);
+			$result = str_replace(" urself ", " yourself ", $result);
+			$result = str_replace(" r ", " are ", $result);
+			$result = str_replace(" u ", " you ", $result);
+			$result = str_replace(" doin ", " doing ", $result);
+			$result = str_replace("u r ", "you are ", $result);
+			$result = str_replace("what's", "what is", $result);
+			$result = str_replace("where's", "where is", $result);
+			$result = str_replace("when's", "when is", $result);
+			$result = str_replace("who's", "who is", $result);
+			$result = str_replace("how's", "how is", $result);
+			$result = str_replace("he's", "he is", $result);
+			$result = str_replace("she's", "she is", $result);
+			$result = str_replace("it's", "it is", $result);
+			$result = str_replace("we're", "were are", $result);
+			$result = str_replace("i'm", "i am", $result);
+			$result = str_replace("that's", "that is", $result);
+			$result = str_replace("don't", "do not", $result);
+
+			if(substr($result, -2) == " u") {
+				$result = substr($result, 0, -2)." you";
+			}
+			if(substr($result, 0, 2) == "u ") {
+				$result = "you ".substr($result, 2);
+			}
+
+			if(substr($result, -3) == " ur") {
+				$result = substr($result, 0, -3)." your";
+			}
+			if(substr($result, 0, 3) == "ur ") {
+				$result = "your ".substr($result, 3);
+			}
+			
+			if(substr($result, -2) == " r") {
+				$result = substr($result, 0, -2)." are";
+			}
+			if(substr($result, 0, 2) == "r ") {
+				$result = "are ".substr($result, 2);
+			}
+
+			if(substr($result, -3) == " urself") {
+				$result = substr($result, 0, -7)." yourself";
+			}
+
+			if(substr($result, -5) == " doin") {
+				$result = substr($result, 0, -5)." doing";
+			}
+			if(substr($result, 0, 5) == "doin ") {
+				$result = "doing ".substr($result, 5);
+			}
+
+			if(substr($result, -7) == ", sarah") {
+				$result = substr($result, 0, -7);
+			}
+			if(substr($result, -6) == ",sarah") {
+				$result = substr($result, 0, -6);
+			}
+			if(substr($result, -6) == " sarah") {
+				$result = substr($result, 0, -6);
+			}
+			
+			if(substr($result, 0, 6) == "sarah ") {
+				$result = substr($result, 6);
+			}
+			if(substr($result, 0, 7) == "sarah, ") {
+				$result = substr($result, 7);
+			}
+			if(substr($result, 0, 10) == "oh sarah, ") {
+				$result = substr($result, 10);
+			}
+			if(substr($result, 0, 2) == "im") {
+				$result = "i am ".substr($result, 2);
+			}
+			while(!preg_match("/[a-zA-Z0-9]/",substr($result, -1))) {
+				$result = substr($result, 0, -1);
+			}
+			if(substr($result, -7) == " please") {
+				$result = substr($result, 0, -7);
+			}
+		}
+
+
+		static function destructure($sentence) 
+		{
+			$inputChunks = explode(" ", $sentence);
+
+			//remove empty spaces
+			$emptyKeys = array_keys($inputChunks, "");
+			for($i = 0, $iLen = $emptyKeys; $i < $iLen; $i++) {
+				unset($inputChunks[$emptyKeys[$i]]);
+			}
+
+			if(isset(English::$questionTypes[$inputChunks[0]])) {
+				$this->isQuestion = true;
+				$this->question = new Question($sentence);
+				return true;
+			}
+
+
+			//not a question, destructure it...
+			$this->isQuestion = false;
+			return true;
+
+			
+
+			/*
+			if(self::isQuestion($sentence)) {
+				$question = new Question($sentence);
+				$question->destructure();
+			}
+			$question = new Question();
+			if(substr($input, 0, 8) == "how can ") {
+				$question->type = "information";
+				$question->expectedResponseType = "instruction";
+				$question->keywords = "instruction";
+			}
+			if(substr($input, 0, 4) == "what") {
+				return "whatever";
+			}
+			if(substr($input, 0, 4) == "when") {
+				return "5000 years ago in the future";
+			}
+			if(substr($input, 0, 5) == "where") {
+				return "At a location unknown to you, apparently";
+			}
+			if(substr($input, 0, 3) == "why") {
+				return "due to reasons";
+			}
+			if(substr($input, 0, 3) == "who") {
+				return "somebody";
+			}
+			if(substr($input, 0, 3) == "can") {
+				return "maybe";
+			}
+			*/
+		}
+	}
+
+	
+

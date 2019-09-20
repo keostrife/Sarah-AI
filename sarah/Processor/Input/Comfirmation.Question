@@ -1,0 +1,13 @@
+<?php namespace sarah\Processor\Input;
+	//define the format of information that sarah understand/process
+	class ConfirmationQuestion {
+		
+		//array of possible answers
+		//yes/no/strings
+		//choice object?
+		$choices = [];
+
+		function __construct() {
+			
+		}
+	}

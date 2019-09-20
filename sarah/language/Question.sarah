@@ -1,0 +1,39 @@
+<?php
+	class Question {
+
+		public $content = "";
+		public $type = "";
+		public $expectedResponseType = ""; //"instruction","confirm",
+
+
+		
+		
+
+
+		function __construct($input){
+			$this->content = $input;
+		}
+
+		public function destructure($input="") {
+			$input = $input??$this->content;
+			//destructure input here
+
+			$inputChunks = explode(" ", $input);
+
+			//remove empty spaces
+			$emptyKeys = array_keys($inputChunks, "");
+			for($i = 0, $iLen = $emptyKeys; $i < $iLen; $i++) {
+				unset($inputChunks[$emptyKeys[$i]]);
+			}
+
+			//get question type object
+			$questionType = English::$questionTypes;
+			while($questionType[$inputChunks[0]]) {
+				$questionType = $questionType[$inputChunks[0]];
+				array_shift($inputChunks);
+			}
+
+			
+		}
+
+	}

@@ -1,0 +1,146 @@
+<?php namespace sarah;
+	//import order: English -> Question -> Sentence
+	class Language {
+		public $name = "English"; //not really used yet
+
+		function __construct(){
+			
+		}
+
+		//english pronouns
+		public static $pronouns = [
+			"i" => [
+				"target": ["user"],
+				"targetType": "user",
+				"targetCount": "single"
+			],
+			"you" => [
+				"target": ["sarah"],
+				"targetType": "sarah",
+				"targetCount": "single"
+			],
+			"he" => [
+				"target": ["unknown"],
+				"targetType": "human",
+				"targetCount": "single"
+			],
+			"she" => [
+				"target": ["unknown"],
+				"targetType": "human",
+				"targetCount": "single"
+			],
+			"it" => [
+				"target": ["unknown"],
+				"targetType": "unknown",
+				"targetCount": "single"
+			],
+			"we" => [
+				"target": ["user","unknown"],
+				"targetType": "unknown",
+				"targetCount": "multiple"
+			],
+			"they" => [
+				"target": ["unknown"],
+				"targetType": "unknown",
+				"targetCount": "multiple"
+			],
+			"everyone" => [
+				"target": ["unknown"],
+				"targetType": "human",
+				"targetCount": "multiple"
+			],
+			"everybody" => [
+				"target": ["unknown"],
+				"targetType": "human",
+				"targetCount": "multiple"
+			],
+			"anyone" => [
+				"target": ["unknown"],
+				"targetType": "human",
+				"targetCount": "multiple"
+			],
+			"anybody" => [
+				"target": ["unknown"],
+				"targetType": "human",
+				"targetCount": "multiple"
+			],
+			"no one" => [
+				"target": [],
+				"targetType": "human",
+				"targetCount": 0
+			],
+			"each" => [
+				"target": ["unknown"],
+				"targetType": "unknown",
+				"targetCount": "unknown"
+			],
+			"either" => [
+				"target": ["unknown"],
+				"targetType": "unknown",
+				"targetCount": "single"
+			],
+			"neither" => [
+				"target": [],
+				"targetType": "unknown",
+				"targetCount": 0
+			],
+		];
+
+		//used to detect and destruture questions
+		public static $questionTypes = [
+			"how" => [
+				"can" => [
+					"type"=>"information",
+					"expectedResponseType" => "instruction",
+					"expectedNextWordType" => "pronoun"
+				],
+				"long" => [
+					"type"=>"information",
+					"expectedResponseType"=>"duration",
+					"expectedNextWordType" => "linking verb"
+				],
+				"much" => [
+					"type"=>"information",
+					"expectedResponseType"=>"amount",
+					"expectedNextWordType" => "linking verb"
+				],
+				"many" => [
+					"type"=>"information",
+					"expectedResponseType"=>"amount",
+					"expectedNextWordType" => "linking verb"
+				],
+				"often" => [
+					"type"=>"information",
+					"expectedResponseType"=>"repetition",
+					"expectedNextWordType" => "linking verb"
+				],
+				"[empty]" => [
+					"type"=>"information",
+					"expectedResponseType"=>"describe",
+					"expectedNextWordType" => "linking verb"
+				],
+				"far" => [
+					"type"=>"information",
+					"expectedResponseType"=>"distance",
+					"expectedNextWordType" => "linking verb"
+				],
+				"[default]" => [
+					"type"=>"information",
+					"expectedResponseType"=>"describe",
+					"expectedNextWordType" => "adjective"
+				]
+			]
+		];
+
+		public static $linkingVerbs = [
+			"is" => [
+				"expectedNextWordType" => "pronoun",
+				"targetCount": "single"
+			],
+			"are" => [
+				"expectedNextWordType" => "pronoun",
+				"targetCount": "multiple"
+			],
+		];
+
+	}

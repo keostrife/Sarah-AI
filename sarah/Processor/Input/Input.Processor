@@ -1,0 +1,17 @@
+<?php namespace sarah\Processor;
+	//define the format of information that sarah understand/process
+	class Input {
+		//3 input types:
+		//Command: duh
+		//Question: duh
+		//Expression: duh
+		public static $inputTypes = ["Command", "Question", "Expression"];
+
+		public $type = "Question"; //default to Question
+
+
+
+		function __construct() {
+			
+		}
+	}
