@@ -10,6 +10,7 @@
 
 	include_once("./sarah/core.sarah");
 	include_once("./sarah/Master.sarah");
+	include_once("./sarah/language/English.sarah");
 
 	//constructing Sarah
 	$masterUser = new sarah\Master(array(
@@ -34,8 +35,9 @@
 
 	$sarah = new Sarah(array(
 		"master" => $masterUser,
-		"self" => $sarah
+		"self" => $sarah,
+		"language" => new sarah\English()
 	));
 
-	echo $sarah->think($_GET["s"]??"Hi");
+	echo $sarah->think($_GET["s"]??"How can I play piano");
 ?>

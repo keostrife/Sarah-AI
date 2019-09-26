@@ -1,20 +1,23 @@
 <?php
 	
 	require_once("./sarah/Brain.sarah");
-	require_once("./sarah/Processor.sarah");
-	require_once("./sarah/Memory.sarah");
+	require_once("./sarah/Processor/Processor.sarah");
+	require_once("./sarah/Memory/Memory.sarah");
 
 	class Sarah {
 		protected $brain;
-		public static $master;
-		public static $self;
+		public static $master; //sarah master user
+		public static $self; //sarah personal information
+		public static $memory; //memory object, make this static for now
 		function __construct($components) {
 			$this->brain = new sarah\Brain(array(
-				"processor" => new sarah\Processor(),
-				"memory" => new sarah\Memory()
+				"processor" => new sarah\Processor([
+					"language" => $components["language"]
+				])
 			));
 			self::$master = $components["master"];
 			self::$self = $components["self"];
+			self::$memory = new sarah\Memory();
 		}
 
 		public function think($input) {

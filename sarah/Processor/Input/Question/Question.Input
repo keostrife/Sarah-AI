@@ -1,0 +1,28 @@
+<?php namespace sarah\Processor\Input;
+	//define the format of questions that sarah understand/process
+	include_once(__DIR__."/Information.Question");
+	include_once(__DIR__."/Confirmation.Question");
+	class Question {
+		//2 types so far:
+		//Condition: yes/no, or a choice between multiple options
+		//Information: duh
+		public static $questionTypes = ["Confirmation", "Information"];
+
+		public $type = "Information"; //default to Information
+
+		
+
+		function __construct() {
+			
+		}
+
+		function digest($languageDump) {
+			$languageDump = (array) $languageDump;
+			if($languageDump["type"] == "Information") {
+				//deal with information questions
+				$this->type = "Information";
+				$this->information = new \sarah\Processor\Input\Question\Information();
+				$this->information->type = $languageDump["expectedResponseType"];
+			}
+		}
+	}

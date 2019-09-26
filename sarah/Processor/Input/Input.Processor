@@ -1,17 +1,99 @@
 <?php namespace sarah\Processor;
 	//define the format of information that sarah understand/process
+	include_once(__DIR__."/Question/Question.Input");
+	include_once(__DIR__."/Command/Command.Input");
+	include_once(__DIR__."/Expression/Expression.Input");
 	class Input {
 		//3 input types:
 		//Command: duh
 		//Question: duh
 		//Expression: duh
 		public static $inputTypes = ["Command", "Question", "Expression"];
-
 		public $type = "Question"; //default to Question
+		public $rawInput;
 
 
 
 		function __construct() {
 			
+		}
+
+		public function digest($languageDump) {
+			if($languageDump->isQuestion) {
+				//deal with questions
+				$this->type = "Question";
+				$this->rawInput = $languageDump->question->content;
+				$this->question = new \sarah\Processor\Input\Question();
+				$this->question->digest($languageDump->question->type);
+				$this->keyword = $languageDump->question->noun;
+				$this->keywordCount = $languageDump->question->keywordCount;
+				$this->requestString = $languageDump->question->requestString;
+			}
+		}
+
+		public function conclude() {
+			$type = strtolower($this->type);
+			$object = $this;
+			while(isset($object->$type)) {
+				$object = $object->$type;
+				$type = strtolower($object->type);
+			}
+			return "/".$object->type." ".$this->requestString;
+		}
+
+		
+
+		//I.E: extract 'car' from 'show me car' with structure 'show me [keyword]'
+		static function extractKeyword($input, $keywordStructure) {
+			$keywords = array();
+			$inputChunks = explode("[keyword]", $keywordStructure);
+			$keywordCount = substr_count($keywordStructure, "[keyword]");
+			$hasKeywordAtTheEnd = false;
+			$hasKeywordAtTheBeginning = false;
+			if($inputChunks[count($inputChunks)-1] == "") {
+				array_pop($inputChunks);
+				$hasKeywordAtTheEnd = true;
+			}
+			if($inputChunks[0] == "") {
+				array_shift($inputChunks);
+				$hasKeywordAtTheBeginning = true;
+			}
+			if($keywordCount == 1) {
+				if($hasKeywordAtTheEnd) {
+					$keywords[] = trim(substr($input, strlen($inputChunks[0])));
+				} else if ($hasKeywordAtTheBeginning){
+					$keywords[] = trim(substr($input, 0, 0 - strlen($inputChunks[0])));
+				} else {
+					$keyword = $input;
+					$keyword = substr($keyword, strlen($inputChunks[0]));
+					$keyword = substr($keyword, 0, 0 - strlen($inputChunks[1]));
+					$keywords[] = trim($keyword);
+				}
+			} else {
+				$keyword = $input;
+				for($i = 0, $iLen = count($inputChunks); $i<$iLen; $i++) {
+					if($hasKeywordAtTheBeginning && $i == 0) {
+						$keywords[] = trim(substr($keyword, 0, 0 - strlen($keyword) + strpos($keyword, $inputChunks[0])));
+						$keyword = substr($keyword, strpos($keyword, $inputChunks[0]));
+						$keyword = trim($keyword);
+					}
+					if($hasKeywordAtTheEnd && $i == $iLen - 1) {
+						$keywords[] = trim(substr($keyword, strpos($keyword, $inputChunks[$i]) + strlen($inputChunks[$i])));
+						$keyword = substr($keyword, 0, 0 - strlen($input) + strpos($keyword, $inputChunks[$i]) + strlen($inputChunks[$i]));
+						$keyword = trim($keyword);
+					}
+					if($i == $iLen - 1) {
+						continue;
+					} else {
+						$offset = 0;
+						if($inputChunks[$i+1] == $inputChunks[$i]) {
+							$offset = 1;
+						}
+						$keywords[] = substr($keyword, strlen($inputChunks[$i]), 0 - strlen($keyword) + strpos($keyword, $inputChunks[$i+1], $offset));
+						$keyword = substr($keyword, strpos($keyword, $inputChunks[$i+1], $offset));
+					}
+				}
+			}
+			return $keywords;
 		}
 	}

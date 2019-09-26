@@ -1,4 +1,4 @@
-<?php namespace sarah\language;
+<?php namespace sarah\English;
 	//translate English into code that sarah can understand
 	class Sentence {
 		public $language = "English";
@@ -9,7 +9,7 @@
 			
 		}
 
-		static function purity($input) {
+		static function purify($input){
 			$result = strtolower($input);
 			$result = trim($result);
 			$result = str_replace(" ur ", " your ", $result);
@@ -91,22 +91,25 @@
 			if(substr($result, -7) == " please") {
 				$result = substr($result, 0, -7);
 			}
+
+			return $result;
 		}
 
 
-		static function destructure($sentence) 
+		public function destructure($sentence) 
 		{
 			$inputChunks = explode(" ", $sentence);
 
 			//remove empty spaces
 			$emptyKeys = array_keys($inputChunks, "");
-			for($i = 0, $iLen = $emptyKeys; $i < $iLen; $i++) {
+			for($i = 0, $iLen = count($emptyKeys); $i < $iLen; $i++) {
 				unset($inputChunks[$emptyKeys[$i]]);
 			}
 
-			if(isset(English::$questionTypes[$inputChunks[0]])) {
+			if(isset(\sarah\English::$questionTypes[$inputChunks[0]])) {
 				$this->isQuestion = true;
-				$this->question = new Question($sentence);
+				$this->question = new \sarah\English\Question($sentence);
+				$this->question->destructure();
 				return true;
 			}
 

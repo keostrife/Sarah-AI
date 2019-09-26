@@ -1,88 +1,100 @@
 <?php namespace sarah;
 	//import order: English -> Question -> Sentence
-	class Language {
+	include_once(__DIR__."/Question.English");
+	include_once(__DIR__."/Sentence.English");
+	class English {
 		public $name = "English"; //not really used yet
 
 		function __construct(){
 			
 		}
 
+		function purify($input) {
+			return \sarah\English\Sentence::purify($input);
+		}
+
+		function getSentence($input) {
+			$sentence = new \sarah\English\Sentence();
+			$sentence->destructure($input);
+			return $sentence;
+		}
+
 		//english pronouns
 		public static $pronouns = [
 			"i" => [
-				"target": ["user"],
-				"targetType": "user",
-				"targetCount": "single"
+				"target" => ["user"],
+				"targetType" => "user",
+				"targetCount" => "single"
 			],
 			"you" => [
-				"target": ["sarah"],
-				"targetType": "sarah",
-				"targetCount": "single"
+				"target" => ["sarah"],
+				"targetType" => "sarah",
+				"targetCount" => "single"
 			],
 			"he" => [
-				"target": ["unknown"],
-				"targetType": "human",
-				"targetCount": "single"
+				"target" => ["unknown"],
+				"targetType" => "human",
+				"targetCount" => "single"
 			],
 			"she" => [
-				"target": ["unknown"],
-				"targetType": "human",
-				"targetCount": "single"
+				"target" => ["unknown"],
+				"targetType" => "human",
+				"targetCount" => "single"
 			],
 			"it" => [
-				"target": ["unknown"],
-				"targetType": "unknown",
-				"targetCount": "single"
+				"target" => ["unknown"],
+				"targetType" => "unknown",
+				"targetCount" => "single"
 			],
 			"we" => [
-				"target": ["user","unknown"],
-				"targetType": "unknown",
-				"targetCount": "multiple"
+				"target" => ["user","unknown"],
+				"targetType" => "unknown",
+				"targetCount" => "multiple"
 			],
 			"they" => [
-				"target": ["unknown"],
-				"targetType": "unknown",
-				"targetCount": "multiple"
+				"target" => ["unknown"],
+				"targetType" => "unknown",
+				"targetCount" => "multiple"
 			],
 			"everyone" => [
-				"target": ["unknown"],
-				"targetType": "human",
-				"targetCount": "multiple"
+				"target" => ["unknown"],
+				"targetType" => "human",
+				"targetCount" => "multiple"
 			],
 			"everybody" => [
-				"target": ["unknown"],
-				"targetType": "human",
-				"targetCount": "multiple"
+				"target" => ["unknown"],
+				"targetType" => "human",
+				"targetCount" => "multiple"
 			],
 			"anyone" => [
-				"target": ["unknown"],
-				"targetType": "human",
-				"targetCount": "multiple"
+				"target" => ["unknown"],
+				"targetType" => "human",
+				"targetCount" => "multiple"
 			],
 			"anybody" => [
-				"target": ["unknown"],
-				"targetType": "human",
-				"targetCount": "multiple"
+				"target" => ["unknown"],
+				"targetType" => "human",
+				"targetCount" => "multiple"
 			],
 			"no one" => [
-				"target": [],
-				"targetType": "human",
-				"targetCount": 0
+				"target" => [],
+				"targetType" => "human",
+				"targetCount" => 0
 			],
 			"each" => [
-				"target": ["unknown"],
-				"targetType": "unknown",
-				"targetCount": "unknown"
+				"target" => ["unknown"],
+				"targetType" => "unknown",
+				"targetCount" => "unknown"
 			],
 			"either" => [
-				"target": ["unknown"],
-				"targetType": "unknown",
-				"targetCount": "single"
+				"target" => ["unknown"],
+				"targetType" => "unknown",
+				"targetCount" => "single"
 			],
 			"neither" => [
-				"target": [],
-				"targetType": "unknown",
-				"targetCount": 0
+				"target" => [],
+				"targetType" => "unknown",
+				"targetCount" => 0
 			],
 		];
 
@@ -90,43 +102,53 @@
 		public static $questionTypes = [
 			"how" => [
 				"can" => [
-					"type"=>"information",
-					"expectedResponseType" => "instruction",
+					"type"=>"Information",
+					"expectedResponseType" => "Instruction",
 					"expectedNextWordType" => "pronoun"
 				],
+				"to" => [
+					"type"=>"Information",
+					"expectedResponseType" => "Instruction",
+					"expectedNextWordType" => "verb"
+				],
 				"long" => [
-					"type"=>"information",
-					"expectedResponseType"=>"duration",
+					"type"=>"Information",
+					"expectedResponseType"=>"Messurement",
 					"expectedNextWordType" => "linking verb"
 				],
 				"much" => [
-					"type"=>"information",
-					"expectedResponseType"=>"amount",
+					"type"=>"Information",
+					"expectedResponseType"=>"Messurement",
 					"expectedNextWordType" => "linking verb"
 				],
 				"many" => [
-					"type"=>"information",
-					"expectedResponseType"=>"amount",
+					"type"=>"Information",
+					"expectedResponseType"=>"Messurement",
 					"expectedNextWordType" => "linking verb"
 				],
 				"often" => [
-					"type"=>"information",
-					"expectedResponseType"=>"repetition",
+					"type"=>"Information",
+					"expectedResponseType"=>"Messurement",
 					"expectedNextWordType" => "linking verb"
 				],
-				"[empty]" => [
-					"type"=>"information",
-					"expectedResponseType"=>"describe",
-					"expectedNextWordType" => "linking verb"
+				"is" => [
+					"type"=>"Information",
+					"expectedResponseType"=>"Description",
+					"expectedNextWordType" => "pronoun"
+				],
+				"are" => [
+					"type"=>"Information",
+					"expectedResponseType"=>"Description",
+					"expectedNextWordType" => "pronoun"
 				],
 				"far" => [
-					"type"=>"information",
-					"expectedResponseType"=>"distance",
+					"type"=>"Information",
+					"expectedResponseType"=>"Messurement",
 					"expectedNextWordType" => "linking verb"
 				],
 				"[default]" => [
-					"type"=>"information",
-					"expectedResponseType"=>"describe",
+					"type"=>"Information",
+					"expectedResponseType"=>"Description",
 					"expectedNextWordType" => "adjective"
 				]
 			]
@@ -135,12 +157,123 @@
 		public static $linkingVerbs = [
 			"is" => [
 				"expectedNextWordType" => "pronoun",
-				"targetCount": "single"
+				"targetCount" => "single"
 			],
 			"are" => [
 				"expectedNextWordType" => "pronoun",
-				"targetCount": "multiple"
+				"targetCount" => "multiple"
 			],
+			"am" => [
+				"expectedNextWordType" => "pronoun",
+				"targetCount" => "single"
+			],
+			"do" => [
+				"expectedNextWordType" => "pronoun",
+				"targetCount" => "undefined"
+			],
+			"does" => [
+				"expectedNextWordType" => "pronoun",
+				"targetCount" => "single"
+			]
+		];
+
+		public static $prepositions = [
+			"aboard",
+			"about",
+			"above",
+			"after",
+			"against",
+			"along",
+			"alongside",
+			"amid",
+			"amidst",
+			"among",
+			"around",
+			"at",
+			"on top of",
+			"by",
+			"before",
+			"behind",
+			"below",
+			"beneath",
+			"beside",
+			"besides",
+			"between",
+			"beyond",
+			"down",
+			"during",
+			"except",
+			"for",
+			"from",
+			"in",
+			"inside",
+			"into",
+			"near",
+			"of",
+			"off",
+			"on",
+			"onto",
+			"out",
+			"outside",
+			"over",
+			"past",
+			"through",
+			"to",
+			"toward",
+			"towards",
+			"under",
+			"underneath",
+			"unto",
+			"up",
+			"upon",
+			"upside",
+			"via",
+			"with",
+			"within",
+			"without"
+		];
+
+		public static $articles = [
+			"a" => [
+				"targetCount" => "single"
+			],
+			"an" => [
+				"targetCount" => "single"
+			],
+			"the" => [
+				"targetCount" => null //unknown
+			],
+			"some" => [
+				"targetCount" => "multiple"
+			],
+			"few" => [
+				"targetCount" => "multiple"
+			],
+			"those" => [
+				"referToPrevious" => true,
+				"targetCount" => "multiple"
+			],
+			"these" => [
+				"referToPrevious" => true,
+				"targetCount" => "multiple"
+			],
+			"this" => [
+				"referToPrevious" => true,
+				"targetCount" => "single"
+			],
+			"that" => [
+				"referToPrevious" => true,
+				"targetCount" => "single"
+			],
+		];
+
+		public static $sentenceConnectors = [
+			"and" => [
+				"nature" => "addictive"
+			],
+			"or" => [
+				"nature" => "choose one?"
+			]
 		];
 
 	}

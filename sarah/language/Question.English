@@ -1,0 +1,116 @@
+<?php namespace sarah\English;
+	class Question {
+
+		public $content = "";
+		public $type = "";
+		public $expectedResponseType = ""; //"instruction","confirm",
+
+
+		
+		
+
+
+		function __construct($input){
+			$this->content = $input;
+		}
+
+		public function destructure($input=null) {
+			$input = $input??$this->content;
+			//destructure input here
+
+			$inputChunks = explode(" ", $input);
+
+			//remove empty spaces
+			$emptyKeys = array_keys($inputChunks, "");
+			for($i = 0, $iLen = count($emptyKeys); $i < $iLen; $i++) {
+				unset($inputChunks[$emptyKeys[$i]]);
+			}
+
+			//get question type object
+			$questionType = \sarah\English::$questionTypes[$inputChunks[0]];
+			array_shift($inputChunks);
+			if($questionType[$inputChunks[0]]) {
+				$questionType = $questionType[$inputChunks[0]];
+				array_shift($inputChunks);
+			} else {
+				$questionType = $questionType["[default]"];
+			}
+
+			$linkingVerbs = [];
+			$verb = "";
+			$subject = "";
+			$nount = "";
+			$keyword = "";
+			$article = null;
+			$keywordCount = "single";
+			$targets = [];
+			//collect linking verb if it's there
+			if($questionType["expectedNextWordType"] == "linking verb" && isset(\sarah\English::$linkingVerbs[$inputChunks[0]])) {
+				$linkingVerbs[] = $inputChunks[0];
+				array_shift($inputChunks);
+			}
+
+			if($questionType["expectedNextWordType"] == "pronoun" && isset(\sarah\English::$pronouns[$inputChunks[0]])) {
+				$targets[] = $inputChunks[0];
+				array_shift($inputChunks);
+			}
+
+			//expect next work to be a verb
+			$verb = $inputChunks[0];
+
+			$subject = implode(" ",$inputChunks);
+			//only get the first part before and/or
+			foreach(\sarah\English::$sentenceConnectors as $key => $value) {
+				$subjectChunks = explode(" ".$key." ", $subject);
+				$subject = $subjectChunks[0];
+			}
+
+
+			//if there is a preposition, combine that with the verb
+			array_shift($inputChunks);
+			$keyword = implode(" ",$inputChunks);
+			foreach(\sarah\English::$prepositions as $value) {
+				if(strpos($value, $keyword) === 0) {
+					$verb .= " ".$value;
+					$keyword = trim(substr($keyword,strlen($value)));
+					break;
+				}
+			}
+
+			$keywordChunks = explode(" ",$keyword);
+			foreach(\sarah\English::$articles as $key => $value) {
+				if($key == $keywordChunks[0]) {
+					$article = $value;
+					array_shift($keywordChunks);
+					break;
+				}
+			}
+
+			$noun = implode(" ",$keywordChunks);
+
+			if($article["targetCount"]) {
+				$keywordCount = $article["targetCount"];
+			} else {
+				if(substr($noun, -2) == "es" || substr($noun, -1) == "s") $keywordCount = "multiple";
+				else $keywordCount = "single";
+			}
+
+
+
+			//return a destructured sentence object
+			$this->type = $questionType;
+			$this->linkingVerbs = $linkingVerbs;
+			$this->requestString = $subject; //only 1 subject for now
+			$this->keyword = $keyword;
+			$this->verb = $verb;
+			$this->article = $article;
+			$this->noun = $noun;
+			$this->keywordCount = $keywordCount;
+			return [
+				"questionType" => $questionType,
+				"linkingVerbs" => $linkingVerbs,
+				"subject" => $subject //only 1 subject for now
+			];
+		}
+
+	}

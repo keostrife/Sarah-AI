@@ -1,0 +1,217 @@
+<?php namespace sarah\Processor;
+	class Output {
+
+		public $inputConclusion;
+		public $finalResponse = "";
+
+		function __construct() {
+			
+		}
+
+		public function digest($inputConclusion) {
+			//analyze input conclude
+			$this->inputConclusion = $inputConclusion;
+			$this->finalResponse = $this->immediateResponse($inputConclusion);
+		}
+
+		public function conclude() {
+			return Output::purify($this->finalResponse);
+		}
+
+		static function purify($output) {
+
+			global $dbk;
+			global $userid;
+			while(strpos($output, "[user]") !== FALSE && strpos($output, "[/user]") !== FALSE) {
+				$startPos = strpos($output, "[user]");
+				$endPos = strpos($output, "[/user]");
+				$userKey = substr($output, $startPos + strlen("[user]"), $endPos - $startPos - strlen("[user]"));
+
+				/*
+				$query = $dbk->prepare('SELECT * FROM users WHERE uid=?');
+				$query->bindParam(1, $userid);
+				$query->execute();
+				$user = $query->fetch();
+				if(isset($user[$userKey]))
+					$userValue = $user[$userKey];
+				else
+					$userValue = "";
+				*/
+				$userValue = \Sarah::$master->$userKey;
+				$finalString = substr($output, 0, $startPos) . $userValue . substr($output, $endPos + strlen("[/user]"));
+				$output = $finalString;
+			}
+
+
+			while(strpos($output, "[sarah]") !== FALSE && strpos($output, "[/sarah]") !== FALSE) {
+				$startPos = strpos($output, "[sarah]");
+				$endPos = strpos($output, "[/sarah]");
+				$userKey = substr($output, $startPos + strlen("[sarah]"), $endPos - $startPos - strlen("[sarah]"));
+				/*
+				$query = $dbk->prepare('SELECT * FROM users WHERE uid="sarah"');
+				$query->execute();
+				$user = $query->fetch();
+				if(isset($user[$userKey]))
+					$userValue = $user[$userKey];
+				else
+					$userValue = "";
+				*/
+				$userValue = \Sarah::$self->$userKey;
+				$finalString = substr($output, 0, $startPos) . $userValue . substr($output, $endPos + strlen("[/sarah]"));
+				$output = $finalString;
+			}
+
+			while(strpos($output, "[express]") !== FALSE && strpos($output, "[/express]") !== FALSE) {
+				$startPos = strpos($output, "[express]");
+				$endPos = strpos($output, "[/express]");
+				$expressKey = substr($output, $startPos + strlen("[express]"), $endPos - $startPos - strlen("[express]"));
+				
+				$finalString = substr($output, 0, $startPos) . $this->express($expressKey) . substr($output, $endPos + strlen("[/express]"));
+				$output = $finalString;
+			}
+
+			
+			while(strpos($output, "[ask]") !== FALSE && strpos($output, "[/ask]") !== FALSE) {
+				$startPos = strpos($output, "[ask]");
+				$endPos = strpos($output, "[/ask]");
+				$askKey = substr($output, $startPos + strlen("[ask]"), $endPos - $startPos - strlen("[ask]"));
+				
+				$finalString = substr($output, 0, $startPos) . $this->ask($askKey) . substr($output, $endPos + strlen("[/ask]"));
+				$output = $finalString;
+			}
+			
+			return $output;
+		}
+
+		private function immediateResponse($input) {
+			$result = null;
+
+			global $dbk;
+			//non regex match
+			$query = $dbk->prepare('SELECT * FROM inputAlias WHERE alias=:input AND (regex = 0 OR regex IS NULL)');
+			$param = trim(strtolower($input));
+			$query->bindParam(":input", $param);
+			$query->execute();
+
+			if($query->rowCount() > 0) {
+				$result = $query->fetch();
+			} else {
+				//regex matches, prioritize the longest one
+				$query = $dbk->prepare('SELECT * FROM inputAlias WHERE :input REGEXP regex ORDER BY length(alias) DESC');
+				$param = trim(strtolower($input));
+				$query->bindParam(":input", $param);
+				$query->execute();
+				if($query->rowCount() > 0) {
+					$result = $query->fetch();
+				}
+			}
+
+			
+			
+			if($result) {
+
+				//extract keywords from alias
+				$keywords = \sarah\Processor\Input::extractKeyword($input, $result["alias"]);
+				
+				
+				$query = $dbk->prepare('SELECT * FROM immediateResponse WHERE input=?');
+				$query->bindParam(1, $result["input"]);
+				$query->execute();
+				
+				if($query->rowCount() == 1) {
+					$result = $query->fetch();
+					
+					$query = $dbk->prepare('SELECT * FROM outputAlias WHERE output=?');
+					$query->bindParam(1, $result["output"]);
+					$query->execute();
+
+					//random through the alias for now
+					//TODO: tie this with a output alias chooser
+					$finalOutput = "";
+					if($query->rowCount() > 0) {
+						$results = $query->fetchAll();
+						shuffle($results);
+						for($i = 0; $i < count($results); $i++) {
+							if(!$results[$i]["validation"]) {
+								$finalOutput = $results[$i]["alias"];
+								break;
+							} else {
+								//validation codes? tags? [time]morning[time]?
+								$validation = create_function('$input',$results[$i]["validation"]);
+								if($validation($input)) {
+									$finalOutput = $results[$i]["alias"];
+									break;
+								} else {
+									continue;
+								}
+							}
+						}
+					}
+				}
+
+				//replace keywords from input into output
+				while(strpos($finalOutput, "[keyword]") !== FALSE) {
+					if(!$keywords || !count($keywords)) $keywords = [""];
+					$finalOutput = substr($finalOutput, 0, strpos($finalOutput, "[keyword]")) . $keywords[0] . substr($finalOutput, strpos($finalOutput, "[keyword]") + strlen("[keyword]"));
+					array_shift($keywords);
+				}
+
+				return $finalOutput;
+			}
+
+			//this run if there is no match for input alias
+			$query = $dbk->prepare('INSERT IGNORE INTO unregisteredInput SET input=?');
+			$query->bindParam(1, $input);
+			$query->execute();
+
+			// return $this->structuredResponse($input);
+
+			return $this->express("unknown_command");
+		}
+
+		public function express($output) {
+			global $dbk;
+			$query = $dbk->prepare("SELECT * FROM outputAlias WHERE output=?");
+			$query->bindParam(1, $output);
+			$query->execute();
+			if($query->rowCount() > 0) {
+				//return $query->rowCount();
+				$results = array();
+				while($result = $query->fetch()) {
+					$results[] = $result["alias"];
+				}
+				$randomChoice = array_rand($results);
+				return $results[$randomChoice];
+			}
+			return false;
+		}
+
+		private function structuredResponse($input) {
+			//4 type of questions
+			if(substr($input, 0, 3) == "how") {
+				return "In the usual way.";
+			}
+			if(substr($input, 0, 4) == "what") {
+				return "whatever";
+			}
+			if(substr($input, 0, 4) == "when") {
+				return "5000 years ago in the future";
+			}
+			if(substr($input, 0, 5) == "where") {
+				return "At a location unknown to you, apparently";
+			}
+			if(substr($input, 0, 3) == "why") {
+				return "due to reasons";
+			}
+			if(substr($input, 0, 3) == "who") {
+				return "somebody";
+			}
+			if(substr($input, 0, 3) == "can") {
+				return "maybe";
+			}
+		}
+
+		
+
+		
+	}

@@ -1,0 +1,17 @@
+<?php namespace sarah\Processor\Input\Question;
+	//define the format of questions that sarah understand/process
+	class Information {
+		//2 types so far:
+		//Description: describe stuffs
+		//Definition: facts
+		public static $questionTypes = ["Description", "Definition", "Messurement", "Instruction"];
+		
+		public $type = "Description";
+
+		//information object to look up information
+		public $request = [];
+
+		function __construct() {
+			
+		}
+	}

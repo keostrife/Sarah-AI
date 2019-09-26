@@ -5,7 +5,7 @@
 		//array of possible answers
 		//yes/no/strings
 		//choice object?
-		$choices = [];
+		public $choices = [];
 
 		function __construct() {
 			

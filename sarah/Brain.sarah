@@ -12,146 +12,25 @@
 
 		//take input, decide what to do with it
 		public function process($input){
-			$finalInput = Processor::purifyInput($input);
-			$action = $this->processor->nextAction($finalInput);
-
-			$answer = $this->{$action}($finalInput);
-
-			$answer = Processor::purifyOutput($answer);
-
+			$finalInput = $this->processor->language->purify($input);
+			$sentence = $this->processor->language->getSentence($finalInput);
+			$answer = "idk";
+			if($sentence->isQuestion) {
+				$answer = $this->processor->answerQuestion($sentence);
+			} else {
+				$output = new \sarah\Processor\Output();
+				$output->digest($input);
+				$answer = $output->conclude();
+			}
 			return $answer;
 		}
 
-		public function express($output) {
-			global $dbk;
-			$query = $dbk->prepare("SELECT * FROM outputAlias WHERE output=?");
-			$query->bindParam(1, $output);
-			$query->execute();
-			if($query->rowCount() > 0) {
-				//return $query->rowCount();
-				$results = array();
-				while($result = $query->fetch()) {
-					$results[] = $result["alias"];
-				}
-				$randomChoice = array_rand($results);
-				return $results[$randomChoice];
-			}
-			return false;
-		}
+		
 
 		
 
 		
-		private function immediateResponse($input) {
-			$result = null;
-
-			global $dbk;
-			//non regex match
-			$query = $dbk->prepare('SELECT * FROM inputAlias WHERE alias=:input AND (regex = 0 OR regex IS NULL)');
-			$param = trim(strtolower($input));
-			$query->bindParam(":input", $param);
-			$query->execute();
-
-			if($query->rowCount() > 0) {
-				$result = $query->fetch();
-			} else {
-				//regex matches, prioritize the longest one
-				$query = $dbk->prepare('SELECT * FROM inputAlias WHERE :input REGEXP regex ORDER BY length(alias) DESC');
-				$param = trim(strtolower($input));
-				$query->bindParam(":input", $param);
-				$query->execute();
-				if($query->rowCount() > 0) {
-					$result = $query->fetch();
-				}
-			}
-
-			
-			
-			if($result) {
-
-				//extract keywords from alias
-				$keywords = Processor::extractKeyword($input, $result["alias"]);
-				
-				
-				$query = $dbk->prepare('SELECT * FROM immediateResponse WHERE input=?');
-				$query->bindParam(1, $result["input"]);
-				$query->execute();
-				
-				if($query->rowCount() == 1) {
-					$result = $query->fetch();
-					
-					$query = $dbk->prepare('SELECT * FROM outputAlias WHERE output=?');
-					$query->bindParam(1, $result["output"]);
-					$query->execute();
-
-					//random through the alias for now
-					//TODO: tie this with a output alias chooser
-					$finalOutput = "";
-					if($query->rowCount() > 0) {
-						$results = $query->fetchAll();
-						shuffle($results);
-						for($i = 0; $i < count($results); $i++) {
-							if(!$results[$i]["validation"]) {
-								$finalOutput = $results[$i]["alias"];
-								break;
-							} else {
-								//validation codes? tags? [time]morning[time]?
-								$validation = create_function('$input',$results[$i]["validation"]);
-								if($validation($input)) {
-									$finalOutput = $results[$i]["alias"];
-									break;
-								} else {
-									continue;
-								}
-							}
-						}
-					}
-				}
-
-				//replace keywords from input into output
-				while(strpos($finalOutput, "[keyword]") !== FALSE) {
-					if(!$keywords || !count($keywords)) $keywords = [""];
-					$finalOutput = substr($finalOutput, 0, strpos($finalOutput, "[keyword]")) . $keywords[0] . substr($finalOutput, strpos($finalOutput, "[keyword]") + strlen("[keyword]"));
-					array_shift($keywords);
-				}
-
-				return $finalOutput;
-			}
-
-			//this run if there is no match for input alias
-			$query = $dbk->prepare('INSERT IGNORE INTO unregisteredInput SET input=?');
-			$query->bindParam(1, $input);
-			$query->execute();
-
-			return $this->structuredResponse($input);
-
-			return $this->express("unknown_command");
-		}
-
-		private function structuredResponse($input) {
-			//4 type of questions
-			if(substr($input, 0, 3) == "how") {
-				return "In the usual way.";
-			}
-			if(substr($input, 0, 4) == "what") {
-				return "whatever";
-			}
-			if(substr($input, 0, 4) == "when") {
-				return "5000 years ago in the future";
-			}
-			if(substr($input, 0, 5) == "where") {
-				return "At a location unknown to you, apparently";
-			}
-			if(substr($input, 0, 3) == "why") {
-				return "due to reasons";
-			}
-			if(substr($input, 0, 3) == "who") {
-				return "somebody";
-			}
-			if(substr($input, 0, 3) == "can") {
-				return "maybe";
-			}
-		}
+		
 
 		/*
 		public function askRandom() {

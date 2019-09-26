@@ -1,0 +1,47 @@
+<?php namespace sarah;
+	
+	class MemoryLayer {
+
+		public $content = ""; //should be unique and used to look up
+
+		public $identifiers = []; //should be used to verify the layer with user if needed
+
+		//mentioned keywords, can be used both to look up and verify
+		public $keywords = array();
+
+		public $isQuestion = false;
+
+		//is Sarah expecting response from user
+		public $expectingResponse = false;
+
+		//identifier for the context
+		public $Id;
+
+		function __construct() {
+			
+		}
+
+	}
+
+	class Memory {
+
+		public static $layers = array();
+
+		function __construct() {
+			
+		}
+
+		static function createLayer($input) {
+			$layer = new MemoryLayer();
+			//question input
+			if($input->type == "Question") {
+				$layer->isQuestion = true;
+				$layer->from = "user";
+				$layer->to = "sarah";
+			}
+			$layer->content = $input->rawInput;
+			$layer->keywords[] = $input->keyword;
+			self::$layers[] = $layer;
+		}
+	}
+
